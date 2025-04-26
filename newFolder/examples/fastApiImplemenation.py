@@ -1,53 +1,25 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
-from pydantic import BaseModel
-from typing import Optional
 import subprocess
-# Create a FastAPI instance
+
 app = FastAPI()
 
-# # Define a Pydantic model for the request body
-# class Item(BaseModel):
-#     name: str
-#     description: Optional[str] = None
-#     price: float
-#     tax: Optional[float] = None
-
-# # Define a route for GET requests
-# @app.get("/")
-# def read_root():
-#     return {"message": "Hello, World!"}
-
-# # Define a route for POST requests
-# @app.post("/items/")
-# def create_item(item: Item):
-#     item_dict = item.dict()
-#     if item.tax:
-#         total_price = item.price + item.tax
-#         item_dict["total_price"] = total_price
-#     return item_dict
-
-# # Define a route with a path parameter
-# @app.get("/items/{item_id}")
-# def read_item(item_id: int, q: Optional[str] = None):
-#     return {"item_id": item_id, "q": q}
+# Allow CORS for the React app running on localhost:3000
 origins = [
-    "http://localhost:3000",  # React app URL
+    "http://localhost:3000",  # Your React app's URL
 ]
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=origins,  # Allows requests from React
+    allow_origins=origins,  # Allow requests from React
     allow_credentials=True,
-    allow_methods=["*"],
-    allow_headers=["*"],
+    allow_methods=["*"],  # Allow all methods
+    allow_headers=["*"],  # Allow all headers
 )
+
 @app.get("/start-recording")
 async def start_recording():
-    # Path to your Python script
-    script_path = "./fastApiImplemenation.py"
-    
-    # Run the script
+    script_path = "/Users/jonnie/Documents/hackaton/hacktech-25-brjk/newFolder/examples/tracking_event_example.py"  # Replace with your actual script path
     try:
         subprocess.run(["python", script_path], check=True)
         return {"message": "Recording started successfully!"}
