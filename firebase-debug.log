@@ -1,0 +1,48 @@
+[debug] [2025-04-26T05:11:30.365Z] ----------------------------------------------------------------------
+[debug] [2025-04-26T05:11:30.371Z] Command:       /usr/local/bin/node /usr/local/bin/firebase serve
+[debug] [2025-04-26T05:11:30.371Z] CLI Version:   14.2.1
+[debug] [2025-04-26T05:11:30.371Z] Platform:      darwin
+[debug] [2025-04-26T05:11:30.372Z] Node Version:  v22.15.0
+[debug] [2025-04-26T05:11:30.372Z] Time:          Fri Apr 25 2025 22:11:30 GMT-0700 (Pacific Daylight Time)
+[debug] [2025-04-26T05:11:30.372Z] ----------------------------------------------------------------------
+[debug] 
+[debug] [2025-04-26T05:11:30.492Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2025-04-26T05:11:30.493Z] > authorizing via signed-in user (soojonathan07@gmail.com)
+[debug] [2025-04-26T05:11:30.493Z] [iam] checking project hacktech25brjk for permissions ["firebase.projects.get"]
+[debug] [2025-04-26T05:11:30.493Z] Checked if tokens are valid: true, expires at: 1745646607508
+[debug] [2025-04-26T05:11:30.493Z] Checked if tokens are valid: true, expires at: 1745646607508
+[debug] [2025-04-26T05:11:30.493Z] >>> [apiv2][query] POST https://cloudresourcemanager.googleapis.com/v1/projects/hacktech25brjk:testIamPermissions [none]
+[debug] [2025-04-26T05:11:30.494Z] >>> [apiv2][(partial)header] POST https://cloudresourcemanager.googleapis.com/v1/projects/hacktech25brjk:testIamPermissions x-goog-quota-user=projects/hacktech25brjk
+[debug] [2025-04-26T05:11:30.494Z] >>> [apiv2][body] POST https://cloudresourcemanager.googleapis.com/v1/projects/hacktech25brjk:testIamPermissions {"permissions":["firebase.projects.get"]}
+[debug] [2025-04-26T05:11:30.730Z] <<< [apiv2][status] POST https://cloudresourcemanager.googleapis.com/v1/projects/hacktech25brjk:testIamPermissions 200
+[debug] [2025-04-26T05:11:30.731Z] <<< [apiv2][body] POST https://cloudresourcemanager.googleapis.com/v1/projects/hacktech25brjk:testIamPermissions {"permissions":["firebase.projects.get"]}
+[debug] [2025-04-26T05:11:30.731Z] Checked if tokens are valid: true, expires at: 1745646607508
+[debug] [2025-04-26T05:11:30.731Z] Checked if tokens are valid: true, expires at: 1745646607508
+[debug] [2025-04-26T05:11:30.731Z] >>> [apiv2][query] GET https://cloudresourcemanager.googleapis.com/v1/projects/hacktech25brjk [none]
+[debug] [2025-04-26T05:11:30.890Z] <<< [apiv2][status] GET https://cloudresourcemanager.googleapis.com/v1/projects/hacktech25brjk 200
+[debug] [2025-04-26T05:11:30.890Z] <<< [apiv2][body] GET https://cloudresourcemanager.googleapis.com/v1/projects/hacktech25brjk {"projectNumber":"260317907063","projectId":"hacktech25brjk","lifecycleState":"ACTIVE","name":"hacktech25brjk","labels":{"firebase":"enabled","firebase-core":"disabled"},"createTime":"2025-04-26T04:18:08.979341Z"}
+[info] 
+[info] === Serving from '/Users/jonnie/Documents/hackaton/hacktech-25-brjk'...
+[info] 
+[debug] [2025-04-26T05:11:30.892Z] Checked if tokens are valid: true, expires at: 1745646607508
+[debug] [2025-04-26T05:11:30.892Z] Checked if tokens are valid: true, expires at: 1745646607508
+[debug] [2025-04-26T05:11:30.892Z] >>> [apiv2][query] GET https://firebasehosting.googleapis.com/v1beta1/projects/hacktech25brjk/sites 
+[debug] [2025-04-26T05:11:31.678Z] <<< [apiv2][status] GET https://firebasehosting.googleapis.com/v1beta1/projects/hacktech25brjk/sites 200
+[debug] [2025-04-26T05:11:31.678Z] <<< [apiv2][body] GET https://firebasehosting.googleapis.com/v1beta1/projects/hacktech25brjk/sites {"sites":[{"name":"projects/hacktech25brjk/sites/hacktech25brjk","defaultUrl":"https://hacktech25brjk.web.app","type":"DEFAULT_SITE"}]}
+[debug] [2025-04-26T05:11:31.678Z] Checked if tokens are valid: true, expires at: 1745646607508
+[debug] [2025-04-26T05:11:31.678Z] Checked if tokens are valid: true, expires at: 1745646607508
+[debug] [2025-04-26T05:11:31.678Z] >>> [apiv2][query] GET https://firebase.googleapis.com/v1beta1/projects/hacktech25brjk/webApps/-/config [none]
+[debug] [2025-04-26T05:11:32.059Z] <<< [apiv2][status] GET https://firebase.googleapis.com/v1beta1/projects/hacktech25brjk/webApps/-/config 200
+[debug] [2025-04-26T05:11:32.060Z] <<< [apiv2][body] GET https://firebase.googleapis.com/v1beta1/projects/hacktech25brjk/webApps/-/config {"projectId":"hacktech25brjk","appId":"1:260317907063:web:46de9d9fbcd1df8025de72","storageBucket":"hacktech25brjk.firebasestorage.app","apiKey":"AIzaSyAerTcCUSfpTGJLeqz-DVnIxmIRtYfy8ag","authDomain":"hacktech25brjk.firebaseapp.com","messagingSenderId":"260317907063","measurementId":"G-Y03PZ06G30"}
+[debug] [2025-04-26T05:11:32.067Z] Checked if tokens are valid: true, expires at: 1745646607508
+[debug] [2025-04-26T05:11:32.067Z] Checked if tokens are valid: true, expires at: 1745646607508
+[debug] [2025-04-26T05:11:32.068Z] >>> [apiv2][query] GET https://firebase.googleapis.com/v1beta1/projects/hacktech25brjk [none]
+[debug] [2025-04-26T05:11:32.412Z] <<< [apiv2][status] GET https://firebase.googleapis.com/v1beta1/projects/hacktech25brjk 200
+[debug] [2025-04-26T05:11:32.412Z] <<< [apiv2][body] GET https://firebase.googleapis.com/v1beta1/projects/hacktech25brjk {"projectId":"hacktech25brjk","projectNumber":"260317907063","displayName":"hacktech25brjk","name":"projects/hacktech25brjk","resources":{"hostingSite":"hacktech25brjk"},"state":"ACTIVE","etag":"1_515c09a3-3473-43fa-99b7-b385290e624f"}
+[info] i  hosting[hacktech25brjk]: Serving hosting files from: app {"metadata":{"emulator":{"name":"hosting"},"message":"Serving hosting files from: \u001b[1mapp\u001b[22m"}}
+[info] ✔  hosting[hacktech25brjk]: Local server: http://localhost:5002 {"metadata":{"emulator":{"name":"hosting"},"message":"Local server: \u001b[4m\u001b[1mhttp://localhost:5002\u001b[22m\u001b[24m"}}
+[info] i  hosting: ::1 - - [26/Apr/2025:05:11:39 +0000] "GET / HTTP/1.1" 200 - "-" "Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:137.0) Gecko/20100101 Firefox/137.0" {"metadata":{"emulator":{"name":"hosting"},"message":"::1 - - [26/Apr/2025:05:11:39 +0000] \"GET / HTTP/1.1\" 200 - \"-\" \"Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:137.0) Gecko/20100101 Firefox/137.0\""}}
+[info] i  hosting: ::1 - - [26/Apr/2025:05:11:39 +0000] "GET /__/firebase/init.js?useEmulator=true HTTP/1.1" 200 - "http://localhost:5002/" "Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:137.0) Gecko/20100101 Firefox/137.0" {"metadata":{"emulator":{"name":"hosting"},"message":"::1 - - [26/Apr/2025:05:11:39 +0000] \"GET /__/firebase/init.js?useEmulator=true HTTP/1.1\" 200 - \"http://localhost:5002/\" \"Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:137.0) Gecko/20100101 Firefox/137.0\""}}
+[info] i  hosting: ::1 - - [26/Apr/2025:05:13:00 +0000] "GET / HTTP/1.1" 200 - "-" "Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:137.0) Gecko/20100101 Firefox/137.0" {"metadata":{"emulator":{"name":"hosting"},"message":"::1 - - [26/Apr/2025:05:13:00 +0000] \"GET / HTTP/1.1\" 200 - \"-\" \"Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:137.0) Gecko/20100101 Firefox/137.0\""}}
+[info] i  hosting: ::1 - - [26/Apr/2025:05:13:00 +0000] "GET /firebase.js HTTP/1.1" 200 831 "http://localhost:5002/" "Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:137.0) Gecko/20100101 Firefox/137.0" {"metadata":{"emulator":{"name":"hosting"},"message":"::1 - - [26/Apr/2025:05:13:00 +0000] \"GET /firebase.js HTTP/1.1\" 200 831 \"http://localhost:5002/\" \"Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:137.0) Gecko/20100101 Firefox/137.0\""}}
+[info] i  hosting: ::1 - - [26/Apr/2025:05:13:40 +0000] "GET / HTTP/1.1" 200 - "-" "Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:137.0) Gecko/20100101 Firefox/137.0" {"metadata":{"emulator":{"name":"hosting"},"message":"::1 - - [26/Apr/2025:05:13:40 +0000] \"GET / HTTP/1.1\" 200 - \"-\" \"Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:137.0) Gecko/20100101 Firefox/137.0\""}}
