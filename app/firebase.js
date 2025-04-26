@@ -1,6 +1,10 @@
 // Import the functions you need from the SDKs you need
 import { initializeApp } from "firebase/app";
 import { getAnalytics } from "firebase/analytics";
+
+// imports for documentation
+import { collection, addDoc } from "firebase/firestore";
+
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
 
@@ -19,3 +23,55 @@ const firebaseConfig = {
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
 const analytics = getAnalytics(app);
+
+class userData{
+  constructor (firstName, lastName, api, firestore){
+    this.firstName = firstName;
+    this.lastName = lastName;
+    this.firestore = firestore;
+  }
+
+  // getters
+  get firstName(){
+    return this.firstName;
+  }
+
+  get lastName (){
+    return this.lastName;
+  }
+
+  get api (){
+    return this.api;
+  }
+
+
+
+  // setters
+  set firstName(fn){
+    if (fn) {
+      this.firstName = fn;
+    } else {
+      console.error("Invalid First Name.");
+    }
+  }
+
+  set lastName(ln){
+    if (ln) {
+      this.lastName = ln;
+    } else {
+      console.error("Invalid Last Name.");
+    }
+  }
+
+  set api (key){
+    if (key) {
+      this.api = key;
+    } else {
+      console.error("Invalid.");
+    }
+  }
+
+  toString(){
+    
+  }
+}
