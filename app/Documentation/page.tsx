@@ -20,9 +20,13 @@ const page = () => {
               Technology Stack and System Architecture
             </h1>
             <p className="text-gray-700 mb-6">
-              Our ergonomic tracking system is built using modern technologies
+              Our ergonomic tracking system is powered by a creative tech stack 
+              that seamlessly integrates sensor data and presnets it in an intuitive, 
+              user-friendly interface. Below is a detailed overview of each compoent within
+               the system architecture:
+              {/* Our ergonomic tracking system is built using modern technologies
               across multiple layers, from sensor data capture to user
-              interface. Below is a detailed breakdown of each component:
+              interface. Below is a detailed breakdown of each component: */}
             </p>
             <TechPortion />
           </div>
