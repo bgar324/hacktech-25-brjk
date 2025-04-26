@@ -95,7 +95,7 @@ const page = () => {
 
   return (
     <div className="min-h-screen bg-gray-50">
-      <Navbar isSignedIn={!!user}/>
+      <Navbar />
       <div className="max-w-4xl mx-auto pt-12 px-4">
         <div className="bg-white rounded-lg shadow-lg overflow-hidden">
           <div className="flex">
