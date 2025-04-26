@@ -8,6 +8,18 @@ import { onAuthStateChanged, User } from "firebase/auth";
 
 export default function Dashboard() {
   const [user, setUser] = useState<User | null>(null);
+  const [isRecording, setIsRecording] = useState(false);
+  const [recordingFinished, setRecordingFinished] = useState(false);
+
+  const handleRecordingToggle = () => {
+    if (!isRecording) {
+      setIsRecording(true);
+      setRecordingFinished(false);
+    } else {
+      setIsRecording(false);
+      setRecordingFinished(true);
+    }
+  };
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
@@ -21,7 +33,7 @@ export default function Dashboard() {
     <div className="min-h-screen max-w-screen flex flex-col">
       <Navbar />
       <main className="flex-grow max-w-full w-full mx-auto flex flex-col gap-12 items-center justify-center px-24">
-        <div className = "text-center items-center">
+        <div className="text-center items-center">
           {user && (
             <h2 className="text-2xl font-mono font-semibold text-gray-700">
               hi, {user.displayName || "there"}!
@@ -83,9 +95,23 @@ export default function Dashboard() {
                 (Live Chart Goes Here)
               </div>
             </div>
-            <button className="mt-8 bg-gray-200 hover:bg-gray-200/80 transition-all duration-200 ease-in-out not-only-of-type:text-blue-800 p-3 py-4 rounded-lg shadow-sm flex items-center justify-center cursor-pointer">
-              Start recording
-            </button>
+            <div className="flex flex-col gap-4 mt-8">
+              {!recordingFinished ? (
+                <button
+                  onClick={handleRecordingToggle}
+                  className="bg-gray-200 hover:bg-gray-200/80 transition-all duration-200 ease-in-out text-blue-800 p-3 py-4 rounded-lg shadow-sm flex items-center justify-center cursor-pointer"
+                >
+                  {isRecording ? "Stop Recording" : "Start Recording"}
+                </button>
+              ) : (
+                <a
+                  href="/Diagnostic"
+                  className="bg-blue-400 hover:bg-blue-500 transition-all duration-200 ease-in-out text-white p-3 py-4 rounded-lg shadow-sm flex items-center justify-center cursor-pointer"
+                >
+                  View Deep Diagnostic
+                </a>
+              )}
+            </div>
           </div>
         </div>
       </main>
