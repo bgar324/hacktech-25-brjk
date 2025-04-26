@@ -17,6 +17,7 @@ import {
   signOut,
   updateProfile,
 } from "firebase/auth";
+import { Separator } from "@/components/ui/separator";
 
 const page = () => {
   const [email, setEmail] = useState("");
@@ -104,7 +105,7 @@ const page = () => {
   return (
     <>
       <div className="min-h-screen max-w-screen flex flex-col">
-        <div className="flex-1">
+        <div className="flex-1 flex-row">
           <Navbar />
           <div className="max-w-4xl mx-auto pt-12 px-4">
             <div className="bg-white rounded-lg shadow-lg overflow-hidden">
@@ -134,7 +135,7 @@ const page = () => {
                     </div>
                   ) : (
                     <>
-                      <h2 className="text-3xl font-semibold mb-6">
+                      <h2 className="text-3xl font-semibold mb-6 text-center">
                         {isSignUp ? "Create Account" : "Welcome Back!"}
                       </h2>
                       {isSignUp && (

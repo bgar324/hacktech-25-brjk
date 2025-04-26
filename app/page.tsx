@@ -111,7 +111,7 @@ export default function Home() {
                 hand ∙ ergonomic ∙ tracker
               </p>
               <p className="font-mono text-gray-400 italic text-sm">
-                (with wolfram alpha)
+                (with wolfram|alpha)
               </p>
               <a
                 href="/Dashboard"
