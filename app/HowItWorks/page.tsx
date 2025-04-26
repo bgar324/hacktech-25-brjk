@@ -5,7 +5,7 @@ import ImageText from "./components/ImageText";
 const page = () => {
   return (
     <div className="min-h-screen max-w-screen">
-      <Navbar />
+      <Navbar isSignedIn/>
       <div className="max-w-screen-7xl items-center justify-center text-center mx-32">
         <h1 className="text-3xl mb-8 leading-12">
           We detect wrist and hand strain before you even feel it, helping you
