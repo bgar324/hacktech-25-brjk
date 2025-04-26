@@ -8,7 +8,21 @@ import { onAuthStateChanged, User } from "firebase/auth";
 
 export default function Dashboard() {
   const [user, setUser] = useState<User | null>(null);
+  const startRecording = async () => {
+    try {
+      // Make the request to the FastAPI backend
+      const response = await fetch("http://127.0.0.1:8000/start-recording");
 
+      if (response.ok) {
+        const data = await response.json();
+        console.log(data.message); // Log the response message from FastAPI
+      } else {
+        console.error("Failed to start recording");
+      }
+    } catch (error) {
+      console.error("Error while connecting to the backend:", error);
+    }
+  };
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
       setUser(currentUser);
@@ -83,7 +97,8 @@ export default function Dashboard() {
                 (Live Chart Goes Here)
               </div>
             </div>
-            <button className="mt-8 bg-gray-200 hover:bg-gray-200/80 transition-all duration-200 ease-in-out not-only-of-type:text-blue-800 p-3 py-4 rounded-lg shadow-sm flex items-center justify-center cursor-pointer">
+            <button className="mt-8 bg-gray-200 hover:bg-gray-200/80 transition-all duration-200 ease-in-out not-only-of-type:text-blue-800 p-3 py-4 rounded-lg shadow-sm flex items-center justify-center cursor-pointer"
+            onClick={startRecording}>
               Start recording
             </button>
           </div>

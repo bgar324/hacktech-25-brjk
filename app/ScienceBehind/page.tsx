@@ -49,10 +49,10 @@ const Page = () => {
                   <p className="text-gray-800">
                     Studies show that carpal tunnel pressure increases
                     significantly when the wrist is extended beyond 15°. The
-                    highest pressure is observed at 45° of wrist extension
-                    during typing, while neutral (0°–15°) angles produce the
+                    highest pressure is observed at <strong>45°</strong> of wrist extension
+                    during typing, while neutral (<strong>0°–15°</strong>) angles produce the
                     lowest pressure. Radial deviation (tilting the wrist toward
-                    the thumb) at 15° also leads to elevated pressure compared
+                    the thumb) at <strong>15°</strong> also leads to elevated pressure compared
                     to neutral positioning.
                   </p>
                 </div>
@@ -63,9 +63,9 @@ const Page = () => {
                     Real-World Typing Angles
                   </h2>
                   <p className="text-gray-800">
-                    In a study where participants typed for 10–15 minutes, the
-                    average wrist extension was ~23.4° (left) and ~19.9°
-                    (right), with an average ulnar deviation of ~14.7° (left)
+                    In a study where participants typed for <strong>10–15 minutes</strong>, the
+                    average wrist extension was <strong>23.4°</strong>~ (left) and <strong>~19.9°</strong>
+                    (right), with an average ulnar deviation of <strong>~14.7°</strong> (left)
                     and ~18.6° (right). Over 73% of participants typed with
                     wrist extension greater than 15°, exposing them to
                     heightened risk of ergonomic strain.
