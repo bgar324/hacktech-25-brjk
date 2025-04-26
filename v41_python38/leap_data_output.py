@@ -3,11 +3,11 @@ import sys
 import time
 
 # 1) Prepend the Ultraleap service's "bin" folder (where LeapC.dll lives)
-leap_service_bin = r"C:\Program Files\Ultraleap\LeapService\bin\win64"
+leap_service_bin = r"C:/Users/jonnie/Documents/hackaton/hacktech-25-brjk/v41_python38/LeapC.dll"
 os.environ["PATH"] = leap_service_bin + ";" + os.environ.get("PATH", "")
 
 # 2) Add your Python SDK folder (with Leap.py + LeapPython.pyd)
-sdk_folder = r".\RoSeMotion\app\resources\LeapSDK\v41_python38"
+sdk_folder = r"/Users/jonnie/Documents/hackaton/hacktech-25-brjk/v41_python38"
 sys.path.insert(0, os.path.abspath(sdk_folder))
 
 print("sys.path:", sys.path)
