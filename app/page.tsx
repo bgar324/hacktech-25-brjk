@@ -11,6 +11,7 @@ import { db } from "./firebase";
 import {
   collection,
   addDoc,
+  setDoc,
   doc,
   getDoc,
   getDocs,
@@ -35,19 +36,38 @@ export default function Home() {
   const [password, setPassword] = useState("");
 
   const userDataCollection = collection(firestore, "first");
-
+  const userAnimation = collection(firestore, "animation")
+  function getRandomPoint(maxX: number, maxY: number): number {
+    return Math.random() * maxX;
+  }
   async function addUserData() {
     try {
       const docRef = await addDoc(userDataCollection, {
-        WristRadialAngle: 100,
-        PronationAngle: 100,
+        WristRadialAngle:  { x: getRandomPoint(1, 100), y: getRandomPoint(1, 100), z: getRandomPoint(1, 100)},
+        PronationAngle: { x: getRandomPoint(1, 100), y: getRandomPoint(1, 100), z: getRandomPoint(1, 100)},
       });
       console.log("Document successfully written with ID:", docRef.id);
     } catch (error: any) {
       console.error("Error writing document:", error.message);
     }
   }
+  async function addUserAnimation() {
+    try{
+      for (let i = 0; i < 500 && i < 500; i++) {
+        const frameDoc = {
+          WristRadialAngle: {x:2, y:1, z:1},
+          PronationAngle: {x:1, y:1, z:1}
+        }
+        const frameDocRef = doc(userAnimation, `frame${i}`);
+        await setDoc(frameDocRef, frameDoc);
+        console.log(`Frame ${i} set successfully.`);
 
+      }
+      console.log("All frames uploaded.");
+    } catch (error: any) {
+      console.error("Error setting frames: ", error.message);
+    }
+  }
   async function readUserData(docId: string) {
     try {
       const docRef = doc(firestore, "first", docId);
@@ -67,7 +87,7 @@ export default function Home() {
     try {
       const customOrderQuery = query(
         collection(firestore, "first"),
-        where("WristRadialAngle", "<", 100)
+        where("WristRadialAngle.x", "<", 100)
       );
       const querySnapshot = await getDocs(customOrderQuery);
       querySnapshot.forEach((doc) => {
@@ -82,7 +102,7 @@ export default function Home() {
     try {
       const customOrderQuery = query(
         collection(firestore, "first"),
-        where("PronationAngle", "<", 100)
+        where("PronationAngle.x", "<", 100)
       );
       const querySnapshot = await getDocs(customOrderQuery);
       querySnapshot.forEach((doc) => {
@@ -92,7 +112,6 @@ export default function Home() {
       console.error("Error querying documents:", error.message);
     }
   }
-
   return (
     <>
       <div className="min-h-screen max-w-screen flex flex-col">
@@ -122,8 +141,8 @@ export default function Home() {
             </div>
           </div>
         </div>  
-        <Footer />
-      </div>
+      <Footer />
+    </div>
     </>
   );
 }

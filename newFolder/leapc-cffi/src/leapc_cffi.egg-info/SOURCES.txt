@@ -5,6 +5,7 @@ src/leapc_cffi/LeapC.dll
 src/leapc_cffi/LeapC.h
 src/leapc_cffi/LeapC.lib
 src/leapc_cffi/__init__.py
+src/leapc_cffi/libLeapC.5.dylib
 src/leapc_cffi.egg-info/PKG-INFO
 src/leapc_cffi.egg-info/SOURCES.txt
 src/leapc_cffi.egg-info/dependency_links.txt
