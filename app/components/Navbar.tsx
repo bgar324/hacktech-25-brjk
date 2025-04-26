@@ -42,6 +42,7 @@ const Navbar = ({ isSignedIn = false }: NavbarProps) => {
           </NavigationMenuItem>
           <NavigationMenuItem>
             <NavigationMenuLink
+              href = "/ScienceBehind"
               className="px-3 py-1 hover:bg-gray-300/70 duration-200 ease-in-out rounded-full transition cursor-pointer"
             >
               science behind
