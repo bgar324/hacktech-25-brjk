@@ -76,5 +76,5 @@ class userData{
   toString(){
     return this.firstName + this.lastName + this.firestore;
   }
-
 }
+
