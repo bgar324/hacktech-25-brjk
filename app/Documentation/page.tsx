@@ -3,6 +3,11 @@ import Navbar from "../components/Navbar";
 import TechPortion from "./components/TechPortion";
 import Footer from "../components/Footer";
 
+export const metadata = {
+  title: "documentation | hacktech 25 BRJK",
+  description: "Detecting wrist and hand strain before you even feel it with Leap Motion real-time tracking.",
+};
+
 const page = () => {
   return (
     <div className="min-h-screen max-w-screen">

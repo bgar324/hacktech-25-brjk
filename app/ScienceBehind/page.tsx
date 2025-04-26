@@ -10,6 +10,11 @@ import {
   TableRow,
 } from "@/components/ui/table";
 
+export const metadata = {
+  title: "science behind it | het.ai",
+  description: "Detecting wrist and hand strain before you even feel it with Leap Motion real-time tracking.",
+};
+
 const page = () => {
   return (
     <div className="min-h-screen max-w-screen">

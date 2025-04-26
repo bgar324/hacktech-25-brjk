@@ -3,8 +3,14 @@ import Navbar from "../components/Navbar";
 import ImageText from "./components/ImageText";
 import Footer from "../components/Footer";
 
-const page = () => {
+export const metadata = {
+  title: "how it works | het.ai",
+  description: "Detecting wrist and hand strain before you even feel it with Leap Motion real-time tracking.",
+};
+
+const Page = () => {
   return (
+    
     <div className="min-h-screen max-w-screen">
       <Navbar />
       <div className="max-w-screen-7xl items-center justify-center text-center mx-32">
@@ -30,6 +36,12 @@ const page = () => {
             title="Real-Time Hand Tracking via Leap"
             description="Our system captures and visualizes hand and finger movements in real time using the Leap Motion Controller. As users type or position their hands, the sensor tracks joint positions and renders a 3D skeletal model at 120 frames per second—laying the foundation for precise ergonomic diagnostics."
           />
+          <ImageText
+            imageSrc="/static/howitworks-images/working-data.jpg"
+            altText="working-data"
+            title="Working Data"
+            description="Our system processes the raw data from the Leap Motion sensor to extract meaningful information about hand and wrist movements. This includes tracking joint angles, hand positions, and other relevant metrics that help us assess ergonomic risks."
+          />
         </div>
       </div>
       <Footer />
@@ -37,4 +49,4 @@ const page = () => {
   );
 };
 
-export default page;
+export default Page;

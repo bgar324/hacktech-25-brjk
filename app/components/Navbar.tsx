@@ -23,13 +23,13 @@ export default function Navbar() {
   };
 
   return (
-    <div className="relative flex items-center justify-between px-8 py-3 border-b border-gray-200 mb-8">
+    <div className="relative flex items-center justify-between px-8 py-3 border-b-[1.5px] border-gray-400 mb-8">
       {/* LEFT */}
       <NavigationMenu>
         <NavigationMenuList>
           <NavigationMenuItem>
-            <NavigationMenuLink href="/" className="px-3 py-1 rounded-full hover:bg-gray-300/70 transition text-lg">
-              russell
+            <NavigationMenuLink href="/" className="px-4 py-1 rounded-full hover:bg-gray-300/70 transition text-lg">
+              het.ai
             </NavigationMenuLink>
           </NavigationMenuItem>
         </NavigationMenuList>
@@ -60,13 +60,13 @@ export default function Navbar() {
             <Button
               asChild
               variant="default"
-              className="bg-blue-300 hover:bg-blue-400 cursor-pointer"
+              className="bg-blue-300 rounded-full hover:bg-blue-400 cursor-pointer"
             >
               <a href="/Dashboard" target = "_blank">dashboard</a>
             </Button>
             <Button
               variant="default"
-              className="bg-amber-200 hover:bg-amber-300 cursor-pointer"
+              className="bg-amber-400 rounded-full hover:bg-amber-500 cursor-pointer"
               onClick={handleSignOut}
             >
               log out
@@ -76,7 +76,7 @@ export default function Navbar() {
           <Button
             asChild
             variant="default"
-            className="bg-amber-400 hover:bg-amber-500 cursor-pointer"
+            className="bg-amber-400 hover:bg-amber-500 rounded-full cursor-pointer"
           >
             <a href="/LogIn">log in</a>
           </Button>
