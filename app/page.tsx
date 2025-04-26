@@ -93,7 +93,7 @@ export default function Home() {
 
   return (
     <div className="min-h-screen max-w-screen">
-      <Navbar isSignedIn />
+      <Navbar />
       <div className="max-w-screen-7xl items-center justify-center text-center">
         <h1 className="text-3xl mt-8">russell's ergonomic tracker idea</h1>
 
