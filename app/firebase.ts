@@ -35,7 +35,7 @@ class FireStoreAction{
     // firstName: string;
     // lastName: string;
     // collection: string;
-    user: UserCredential | null = null;;
+    user: UserCredential | null = null;
     constructor (fn: string, ln: string, cl:string){
     //   this.firstName = fn;
     //   this.lastName = ln;
