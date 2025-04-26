@@ -106,7 +106,7 @@ export default function Home() {
                 width={300}
                 height={300}
               />
-              <h1 className="text-3xl mt-8">het.ai</h1>
+              <h1 className="text-3xl mt-8 font-mono">het.ai</h1>
               <p className="font-mono text-gray-600">
                 hand ∙ ergonomic ∙ tracker
               </p>
