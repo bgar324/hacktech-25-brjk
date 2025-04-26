@@ -6,7 +6,7 @@ import Footer from "../components/Footer";
 const page = () => {
   return (
     <div className="min-h-screen max-w-screen">
-      <Navbar isSignedIn />
+      <Navbar />
       <div className="max-w-screen-7xl items-center justify-center text-center mx-32">
         <h1 className="text-3xl mb-4 leading-12">
           Detecting wrist and hand strain before you even feel it
