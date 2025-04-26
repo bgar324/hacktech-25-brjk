@@ -4,7 +4,7 @@ const Navbar = () => {
   return (
     <div className="flex items-center px-8 py-3 border-b-[0.75px] border-gray-200 mb-8">
       <div className="flex-shrink-0">
-        <a className="px-2 py-1 hover:bg-gray-300/70 duration-200 ease-in-out rounded-full transition cursor-pointer">
+        <a href = "/" className="px-2 py-1 hover:bg-gray-300/70 duration-200 ease-in-out rounded-full transition cursor-pointer">
           russell
         </a>
       </div>
