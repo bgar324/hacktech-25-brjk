@@ -1,6 +1,7 @@
 import React from "react";
 import Navbar from "../components/Navbar";
 import TechPortion from "./components/TechPortion";
+import Footer from "../components/Footer";
 
 const page = () => {
   return (
@@ -14,6 +15,7 @@ const page = () => {
         </p>
         <TechPortion />
       </div>
+      <Footer />
     </div>
   );
 };

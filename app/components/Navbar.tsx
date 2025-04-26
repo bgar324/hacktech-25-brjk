@@ -6,7 +6,7 @@ interface NavbarProps {
 
 const Navbar = ({ isSignedIn = false }: NavbarProps) => {
   return (
-    <div className="flex items-center px-8 py-3 border-b-[0.75px] border-gray-200 mb-8">
+    <div className="flex items-center px-8 py-3 border-b-[1.25px] border-gray-200 mb-8">
       <div className="flex-shrink-0">
         <a
           href="/"
