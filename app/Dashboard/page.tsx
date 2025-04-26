@@ -21,14 +21,16 @@ export default function Dashboard() {
     <div className="min-h-screen max-w-screen flex flex-col">
       <Navbar />
       <main className="flex-grow max-w-full w-full mx-auto flex flex-col gap-12 items-center justify-center px-24">
-        {user && (
-          <h2 className="text-2xl font-semibold text-gray-700">
-            Hi, {user.displayName || "there"}! 👋
-          </h2>
-        )}
-        <h1 className="text-5xl font-bold text-center">
-          Your Ergonomic Dashboard
-        </h1>
+        <div className = "text-center items-center">
+          {user && (
+            <h2 className="text-2xl font-mono font-semibold text-gray-700">
+              hi, {user.displayName || "there"}!
+            </h2>
+          )}
+          <h1 className="text-4xl font-semibold text-center">
+            Your Ergonomic Dashboard
+          </h1>
+        </div>
 
         <div className="flex flex-col lg:flex-row gap-12 w-full max-w-[1600px]">
           {/* Left side - Hand model */}

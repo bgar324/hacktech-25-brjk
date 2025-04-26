@@ -4,6 +4,7 @@ import Image from "next/image";
 import Navbar from "./components/Navbar";
 import React, { useState } from "react";
 import Link from "next/link";
+import Footer from "./components/Footer";
 
 import { db } from "./firebase";
 
@@ -96,27 +97,22 @@ export default function Home() {
     <div className="min-h-screen max-w-screen">
       <Navbar />
       <div className="max-w-screen-7xl items-center justify-center text-center">
-        <h1 className="text-3xl mt-8">russell's ergonomic tracker idea</h1>
-        <p className="text-lg text-gray-700 mb-8 max-w-xl">
-          Real-time ergonomic posture monitoring powered by Leap Motion,
-          WolframAlpha calculations, and instant feedback that helps you type
-          safer and longer.
-        </p>
-        <div className="flex gap-4">
-          <Link
-            href="/LogIn"
-            className="px-6 py-3 bg-amber-400 text-white rounded-lg hover:bg-amber-500 transition"
+        <div className="flex flex-col justify-center text-center items-center ">
+          <Image src="/static/logo.png" alt="logo" width={300} height={300} />
+          <h1 className="text-3xl mt-8">het.ai</h1>
+          <p className="font-mono text-gray-600">hand ∙ ergonomic ∙ tracker</p>
+          <p className="font-mono text-gray-400 italic text-sm">
+            (with wolfram alpha)
+          </p>
+          <a
+            href="/Dashboard"
+            className="bg-amber-400 rounded-full hover:bg-amber-500 px-4 py-2 font-mono mt-4 duration-200 ease-in-out transition-all"
           >
-            Get Started
-          </Link>
-          <Link
-            href="/HowItWorks"
-            className="px-6 py-3 border border-gray-400 rounded-lg hover:bg-gray-100 transition"
-          >
-            How It Works
-          </Link>
+            dashboard
+          </a>
         </div>
       </div>
+      <Footer />
     </div>
   );
 }

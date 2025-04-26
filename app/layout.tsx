@@ -18,8 +18,11 @@ const inter = Inter({
 });
 
 export const metadata: Metadata = {
-  title: "Leap Motion Ergonomic Aid",
+  title: "het.ai",
   description: "BRJK",
+  icons: {
+    icon: "/static/favicon.ico",
+  },
 };
 
 export default function RootLayout({
