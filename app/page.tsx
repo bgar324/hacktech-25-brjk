@@ -68,7 +68,6 @@ export default function Home() {
       console.error("Error setting frames: ", error.message);
     }
   }
-  addUserAnimation();
   async function readUserData(docId: string) {
     try {
       const docRef = doc(firestore, "first", docId);
@@ -112,9 +111,6 @@ export default function Home() {
     } catch (error: any) {
       console.error("Error querying documents:", error.message);
     }
-  }
-  for (let i = 0; i < 100; i++) {
-    addUserData();
   }
   return (
     <div className="min-h-screen max-w-screen">

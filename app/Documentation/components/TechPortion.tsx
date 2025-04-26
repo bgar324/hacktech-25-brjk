@@ -23,7 +23,7 @@ const TechPortion = () => {
           <TableRow>
             <TableCell className="font-medium text-left">Hardware Sensor Layer</TableCell>
             <TableCell className="text-left">Leap Motion Controller</TableCell>
-            <TableCell className="text-left">
+            <TableCell className="text-left break-words whitespace-normal">
               Captures high-fidelity 3D hand, wrist, and finger movement data at
               120 frames per second using infrared imaging.
             </TableCell>
@@ -33,7 +33,7 @@ const TechPortion = () => {
               Sensor Processing Layer
             </TableCell>
             <TableCell className="text-left">Leap Motion Service (Desktop)</TableCell>
-            <TableCell className="text-left">
+            <TableCell className="text-left break-words whitespace-normal">
               Processes raw infrared data into structured 3D hand models with
               positional and rotational information.
             </TableCell>
@@ -43,7 +43,7 @@ const TechPortion = () => {
               Backend Computation Layer
             </TableCell>
             <TableCell className="text-left">Python + NumPy + WolframAlpha API</TableCell>
-            <TableCell className="text-left">
+            <TableCell className="text-left break-words whitespace-normal">
               Extracts positional data, computes joint angles and ergonomic risk
               scores, and optionally solves complex ergonomic equations.
             </TableCell>
@@ -51,7 +51,7 @@ const TechPortion = () => {
           <TableRow>
             <TableCell className="font-medium text-left">Database Layer</TableCell>
             <TableCell className="text-left">Firebase Firestore</TableCell>
-            <TableCell className="text-left">
+            <TableCell className="text-left break-words whitespace-normal">
               Stores user posture metrics, timestamps, and ergonomic analytics
               in a real-time cloud database.
             </TableCell>
@@ -61,7 +61,7 @@ const TechPortion = () => {
               Authentication Layer (Optional)
             </TableCell>
             <TableCell className="text-left">Firebase Auth</TableCell>
-            <TableCell className="text-left">
+            <TableCell className="text-left break-words whitespace-normal">
               Handles user signup, login, and secure tracking of personalized
               ergonomic history.
             </TableCell>
@@ -71,7 +71,7 @@ const TechPortion = () => {
               Frontend Application Layer
             </TableCell>
             <TableCell className="text-left">React.js (Vite or Next.js)</TableCell>
-            <TableCell className="text-left">
+            <TableCell className="text-left break-words whitespace-normal">
               Displays real-time ergonomic feedback, posture alerts, and
               diagnostic reports through an interactive web interface.
             </TableCell>
@@ -81,7 +81,7 @@ const TechPortion = () => {
               Cloud Connection Layer
             </TableCell>
             <TableCell className="text-left">Firebase Admin SDK (Python)</TableCell>
-            <TableCell className="text-left">
+            <TableCell className="text-left break-words whitespace-normal">
               Synchronizes computed posture data from backend computation to
               Firebase cloud storage for frontend access.
             </TableCell>
@@ -91,7 +91,7 @@ const TechPortion = () => {
               Frontend Data Fetching Layer
             </TableCell>
             <TableCell className="text-left">Firebase Web SDK</TableCell>
-            <TableCell className="text-left">
+            <TableCell className="text-left break-words whitespace-normal">
               Fetches real-time posture data from Firestore and pushes live
               updates to the React frontend interface.
             </TableCell>
@@ -99,7 +99,7 @@ const TechPortion = () => {
           <TableRow>
             <TableCell className="font-medium text-left">Styling and UI Layer</TableCell>
             <TableCell className="text-left">TailwindCSS / shadcn/ui</TableCell>
-            <TableCell className="text-left">
+            <TableCell className="text-left break-words whitespace-normal">
               Applies responsive, mobile-first design principles to ensure a
               smooth and readable user experience across devices.
             </TableCell>
@@ -109,7 +109,7 @@ const TechPortion = () => {
               Hosting Layer (Optional)
             </TableCell>
             <TableCell className="text-left">Vercel or Firebase Hosting</TableCell>
-            <TableCell className="text-left">
+            <TableCell className="text-left break-words whitespace-normal">
               Hosts the web application and ensures low-latency delivery of the
               dashboard to users globally.
             </TableCell>

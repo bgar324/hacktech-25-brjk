@@ -3,6 +3,7 @@
 import React, { useEffect, useState } from "react";
 import { NavigationMenu, NavigationMenuItem, NavigationMenuLink, NavigationMenuList } from "@/components/ui/navigation-menu";
 import { Button } from "@/components/ui/button";
+import { Separator } from "@/components/ui/separator";
 import { auth } from "../firebase";
 import { signOut, onAuthStateChanged, User } from "firebase/auth";
 import { useRouter } from "next/navigation";
@@ -38,16 +39,19 @@ export default function Navbar() {
       {/* CENTER */}
       <div className="absolute left-1/2 transform -translate-x-1/2">
         <NavigationMenu>
-          <NavigationMenuList className="gap-8">
-            {["HowItWorks","Documentation","ScienceBehind"].map((page) => (
-              <NavigationMenuItem key={page}>
-                <NavigationMenuLink
-                  href={`/${page}`}
-                  className="px-3 py-1 rounded-full hover:bg-gray-300/70 transition"
-                >
-                  {page === "HowItWorks" ? "how it works" : page === "ScienceBehind" ? "science behind" : "documentation"}
-                </NavigationMenuLink>
-              </NavigationMenuItem>
+          <NavigationMenuList className="flex items-center gap-4">
+            {["HowItWorks", "Documentation", "ScienceBehind"].map((page, index) => (
+              <React.Fragment key={page}>
+                <NavigationMenuItem>
+                  <NavigationMenuLink
+                    href={`/${page}`}
+                    className="px-3 py-1 rounded-full hover:bg-gray-300/70 transition"
+                  >
+                    {page === "HowItWorks" ? "how it works" : page === "ScienceBehind" ? "science behind" : "documentation"}
+                  </NavigationMenuLink>
+                </NavigationMenuItem>
+                {index < 2 && <Separator orientation="vertical" className="h-6 bg-gray-400" />}
+              </React.Fragment>
             ))}
           </NavigationMenuList>
         </NavigationMenu>
@@ -62,7 +66,7 @@ export default function Navbar() {
               variant="default"
               className="bg-blue-300 rounded-full hover:bg-blue-400 cursor-pointer"
             >
-              <a href="/Dashboard" target = "_blank">dashboard</a>
+              <a href="/Dashboard" target="_blank">dashboard</a>
             </Button>
             <Button
               variant="default"
