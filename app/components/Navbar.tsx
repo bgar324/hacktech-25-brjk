@@ -28,7 +28,7 @@ export default function Navbar() {
       <NavigationMenu>
         <NavigationMenuList>
           <NavigationMenuItem>
-            <NavigationMenuLink href="/" className="px-3 py-1 rounded-full hover:bg-gray-300/70 transition">
+            <NavigationMenuLink href="/" className="px-3 py-1 rounded-full hover:bg-gray-300/70 transition text-lg">
               russell
             </NavigationMenuLink>
           </NavigationMenuItem>
@@ -60,13 +60,13 @@ export default function Navbar() {
             <Button
               asChild
               variant="default"
-              className="bg-blue-300 hover:bg-blue-400"
+              className="bg-blue-300 hover:bg-blue-400 cursor-pointer"
             >
-              <a href="/Dashboard">dashboard</a>
+              <a href="/Dashboard" target = "_blank">dashboard</a>
             </Button>
             <Button
               variant="default"
-              className="bg-amber-200 hover:bg-amber-300"
+              className="bg-amber-200 hover:bg-amber-300 cursor-pointer"
               onClick={handleSignOut}
             >
               log out
@@ -76,7 +76,7 @@ export default function Navbar() {
           <Button
             asChild
             variant="default"
-            className="bg-amber-400 hover:bg-amber-500"
+            className="bg-amber-400 hover:bg-amber-500 cursor-pointer"
           >
             <a href="/LogIn">log in</a>
           </Button>
