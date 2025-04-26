@@ -1,7 +1,7 @@
+"use client";
 import Image from "next/image";
 import Navbar from "./components/Navbar";
 // /app/page.tsx
-"use client";
 import React, { useState, useEffect } from "react";
 import { getFirestore, query, QuerySnapshot, where } from "firebase/firestore";
 import {
