@@ -1,6 +1,7 @@
 import React from "react";
 import Navbar from "../components/Navbar";
 import ImageText from "./components/ImageText";
+import Footer from "../components/Footer";
 
 const page = () => {
   return (
@@ -27,6 +28,7 @@ const page = () => {
           />
         </div>
       </div>
+      <Footer />
     </div>
   );
 };
