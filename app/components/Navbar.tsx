@@ -8,7 +8,7 @@ const Navbar = () => {
           russell
         </a>
       </div>
-      <div className="flex-1 flex justify-center gap-8 font-thin pl-40">
+      <div className="flex-1 flex justify-center gap-8 pl-4">
         <a href = "/HowItWorks" className="cursor-pointer px-2 py-1 hover:bg-gray-300/70 duration-200 ease-in-out rounded-full transition">
           how it works
         </a>
@@ -20,11 +20,8 @@ const Navbar = () => {
         </a>
       </div>
       <div className="flex-shrink-0 flex gap-4">
-        <a className="px-6 py-1 bg-amber-400 hover:bg-amber-400/80 rounded-lg transition">
+        <a href = "/LogIn"className="px-6 py-1 bg-amber-400 hover:bg-amber-400/80 rounded-lg transition cursor:pointer">
           log in
-        </a>
-        <a className="px-6 py-1 bg-gray-200 hover:bg-gray-200/80 rounded-lg transition">
-          sign up
         </a>
       </div>
     </div>
