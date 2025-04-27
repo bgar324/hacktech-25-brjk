@@ -54,7 +54,11 @@ class MyListener(leap.Listener):
             
 
             # # build the “forearm” vector elbow→wrist
-            #v_arm = np.array[wrist_pt.x - elbow.x, wrist_pt.y - elbow.y, wrist_pt.z - elbow.z]
+            # varmx = wrist_pt.x - elbow.x
+            # varmy = wrist_pt.y - elbow.y
+            # varmz = wrist_pt.z - elbow.z
+            # v_arm =np.array[varmx, varmy, varmz]
+
             #v_armMag = v_arm/sum(v_arm)
 
             # # 2) build the “wrist→palm” vector
