@@ -4,12 +4,41 @@ import React, { useEffect, useState } from "react";
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
 import { auth } from "../firebase";
+import { db } from "../firebase";
+import { collection, query, orderBy, onSnapshot } from "firebase/firestore";
 import { onAuthStateChanged, User } from "firebase/auth";
 import HandVisualizer from "./components/HandVisualizer";
+import GraphVisualizer, { DataPoint } from "./components/GraphVisualizer";
 
 export default function Dashboard() {
   const [user, setUser] = useState<User | null>(null);
   const [isRecording, setIsRecording] = useState(false);
+  const [flexion, setFlexion] = useState<number | null>(null);
+  const [deviation, setDeviation] = useState<number | null>(null);
+  const [pronation, setPronation] = useState<number | null>(null);
+  const [history, setHistory] = useState<DataPoint[]>([]);
+
+  useEffect(() => {
+    const unsubscribeAuth = onAuthStateChanged(auth, setUser);
+    return () => unsubscribeAuth();
+  }, []);
+
+  useEffect(() => {
+    const framesRef = collection(db, "first");
+    const q = query(framesRef, orderBy("timestamp", "asc"));
+    const unsub = onSnapshot(
+      q,
+      (snap) => {
+        if (snap.empty) return;
+        const latest = snap.docs[snap.docs.length - 1].data();
+        setFlexion(parseFloat(latest.flexion));
+        setDeviation(parseFloat(latest.deviation));
+        setPronation(parseFloat(latest.pronation));
+      },
+      console.error
+    );
+    return () => unsub();
+  }, []);
 
   const startRecording = async () => {
     try {
@@ -17,6 +46,7 @@ export default function Dashboard() {
         method: "GET",
       });
       if (response.ok) {
+        setIsRecording(true);
         const data = await response.json();
         // console.log(data.message); // Log the message from FastAPI
       } else {
@@ -27,10 +57,38 @@ export default function Dashboard() {
     }
   };
 
+  useEffect(() => {
+    if (!isRecording) return;
+    setHistory([]);
+    const q = query(collection(db, "first"), orderBy("timestamp", "asc"));
+    const unsub = onSnapshot(
+      q,
+      (snap) => {
+        if (snap.empty) return;
+        const doc = snap.docs[snap.docs.length - 1];
+        const data = doc.data();
+        const ts =
+          typeof data.timestamp?.toMillis === "function"
+            ? data.timestamp.toMillis()
+            : Date.now();
+        setHistory((prev) => [
+          ...prev,
+          {
+            timestamp: ts,
+            flexion: parseFloat(data.flexion),
+            deviation: parseFloat(data.deviation),
+            pronation: parseFloat(data.pronation),
+          },
+        ]);
+      },
+      console.error
+    );
+    return () => unsub();
+  }, [isRecording]);
+
   const handleRecordingClick = () => {
     if (!isRecording) {
       startRecording();
-      setIsRecording(true);
     } else {
       // you can add pause logic or navigation to diagnostics here
     }
@@ -75,24 +133,26 @@ export default function Dashboard() {
           <div className="w-full lg:w-2/5 flex flex-col gap-4">
             <div className="bg-white rounded-2xl shadow-md p-8">
               <h2 className="text-2xl font-semibold mb-4 text-center">
-                Diagnostics
+                Live Diagnostics
               </h2>
               <div className="space-y-3 text-base text-gray-700">
                 <div className="flex justify-between">
-                  <span>Wrist Extension:</span>
-                  <span className="font-semibold text-green-600">22°</span>
+                  <span>Flexion:</span>
+                  <span className="font-semibold text-green-600">
+                    {flexion !== null ? `${flexion.toFixed(2)}°` : "–"}
+                  </span>
                 </div>
                 <div className="flex justify-between">
                   <span>Radial Deviation:</span>
-                  <span className="font-semibold text-yellow-500">16°</span>
+                  <span className="font-semibold text-yellow-500">
+                    {deviation !== null ? `${deviation.toFixed(2)}°` : "–"}
+                  </span>
                 </div>
                 <div className="flex justify-between">
-                  <span>Risk Level:</span>
-                  <span className="font-semibold text-green-600">Low</span>
-                </div>
-                <div className="flex justify-between">
-                  <span>Session Time:</span>
-                  <span className="font-semibold text-gray-800">15 min</span>
+                  <span>Pronation:</span>
+                  <span className="font-semibold text-blue-400">
+                    {pronation !== null ? `${pronation.toFixed(2)}°` : "–"}
+                  </span>
                 </div>
               </div>
             </div>
@@ -102,11 +162,14 @@ export default function Dashboard() {
                 Live Wrist Graph
               </h2>
               <div className="h-64 bg-gray-100 rounded-lg flex items-center justify-center text-gray-400 text-base font-semibold">
-                (Live Chart Goes Here)
+                <GraphVisualizer data={history} />
               </div>
             </div>
-            <button onClick = {startRecording} className="mt-8 bg-gray-200 hover:bg-gray-200/80 transition-all duration-200 ease-in-out not-only-of-type:text-blue-800 p-3 py-4 rounded-lg shadow-sm flex items-center justify-center cursor-pointer">
-              Start recording
+            <button
+              onClick={handleRecordingClick}
+              className="mt-4 bg-gray-200 hover:bg-gray-200/80 p-3 rounded-lg"
+            >
+              {isRecording ? "Recording…" : "Start recording"}
             </button>
           </div>
         </div>
