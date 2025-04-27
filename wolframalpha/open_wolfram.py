@@ -1,7 +1,8 @@
-from openai import OpenAI
-import requests
 import urllib.parse
 import xml.etree.ElementTree as ET
+import requests
+from openai import OpenAI
+
 
 point1 = (0, 0, 0)
 def openAI(a, b, c): # parameter values: (x, y, z)
@@ -57,3 +58,4 @@ def wolframAI(a, b, c): # parameter values: (x, y, z)
         if result_pod is not None:
             plaintext = result_pod.findtext(".//plaintext") 
             return "Wolfram Alpha Magnitude Calculation: " + plaintext
+print(openAI(1, 3, 4))

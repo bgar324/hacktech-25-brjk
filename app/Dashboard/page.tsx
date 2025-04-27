@@ -36,11 +36,11 @@ export default function Dashboard() {
 
   const toggleRecording = async () => {
     if (!isRecording) {
-      await fetch("http://127.0.0.1:8004/start-recording");
+      await fetch("http://127.0.0.1:8005/start-recording");
       setHistory([]);
       setIsRecording(true);
     } else {
-      await fetch("http://127.0.0.1:8004/stop-recording");
+      await fetch("http://127.0.0.1:8005/stop-recording");
       setIsRecording(false);
     }
   };
