@@ -7,6 +7,7 @@ server and a device being plugged in also generate logs.
 import leap
 import time
 import numpy as np
+import json
 
 
 class MyListener(leap.Listener):
@@ -88,7 +89,8 @@ class MyListener(leap.Listener):
                          "pinky_middle": handy[13],
                          "pinky_tip":handy[14],
             }
-            print(finalData)
+            with open("output.json", "w") as file:
+                json.dump(finalData, file, indent=4)
 
 
 def main():
