@@ -4,24 +4,27 @@ import urllib.parse
 import xml.etree.ElementTree as ET
 
 point1 = (0, 0, 0)
-def openAI(a, b, c): # parameter values: (x, y, z)
-    point2 = (a, b, c)
+def openAI(x, y, z): # parameter values: (x, y, z)
+    point2 = (x, y, z)
 
     # OpenAI ID
     openai_id = "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"
     
     # prompt for gpt to answer
-        # right = -x, left = +x
-        # forward = -y, back = +y
-        # down = -z, up = +z
+        # clockwise = -x, counterclockwise = +x
+        # counterclockwise = -y, clockwise = +y
+        # up = -z,           down = +z
     client = OpenAI(api_key = openai_id)
-    question = f'''for each coordinate axis, individually, check whether the value is positive, negative, or zero. if the value is zero,
-                do not change the direction. otherwise, move all negative x to the right, negative y forward, negative z down. additionally, 
-                move postiive x to the left, positive y back, and negative z up. use the points of this vector ({point2[0]}, {point2[1]}, {point2[2]})
-                to determine the direction changes. 
-                for example: (-1, -1, -1) would be 'Move your hands to the right, forward, and down since x, y, and z are negative'
-                another example: (1, 1, 1) would be 'Move your hands to the left, backward, and up since x, y, and z are positive' 
-                you do not have to provide reasoning, numbers, or points in your response'''
+
+    question = f'''consider a vector coordinate (x,y,z)
+                    if {point2[0]} is greater than 0 make the user go counterclockwise, otherwise make {point2[0]} go clockwise
+                    if {point2[1]} is greater than 0 make the user wrist rotate clockwise, otherwise make {point2[1]} user wrist rotate counterclockwise
+                    if {point2[2]} is greater than 0 make the user's wrist go down, otherwise make {point2[2]} go up
+                    when {point2[0]}, {point2[1]}, {point2[2]} equal zero, explicitly state that the user is at optimal wrist position
+                    are all equal to 0, do NOT give directions, just tell the user they are at optimal position
+                    format your answer in 'Move ____, ____, ____' if spaces applicable and only answer in one sentence
+                    do not include reasing, numbers, or values in your answer
+                    '''
 
     # generating gpt response
     try:
@@ -57,3 +60,7 @@ def wolframAI(a, b, c): # parameter values: (x, y, z)
         if result_pod is not None:
             plaintext = result_pod.findtext(".//plaintext") 
             return "Wolfram Alpha Magnitude Calculation: " + plaintext
+        
+print(openAI(-400,-500,-600))
+print(openAI(100,100,100))
+print(openAI(0,0,0))
