@@ -28,7 +28,7 @@ cd hacktech-25-brjk
 * cd newFolder
 * Follow all installations in README.md inside of newFolder
 * Create and activate a virtual environment
-pip install -r requirements.txt
+pip install -r requirements.txtgit
 python -m build leapc-cffi
 pip install leapc-cffi/dist/leapc_cffi-0.0.1.tar.gz
 pip install -e leapc-python-api
