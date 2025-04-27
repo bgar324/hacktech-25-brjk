@@ -10,6 +10,7 @@ import numpy as np
 import json
 import os
 from google.cloud import firestore
+from datetime import datetime
 
 global finalData
 class MyListener(leap.Listener):
@@ -88,22 +89,24 @@ class MyListener(leap.Listener):
                 return 90 + np.arctan2(y, x) *180 / np.pi
             
             handy.append([
-                f"{radDev:.2f}",
-                f"{flexEx:.2f}",
-                f"{pronation_angle(v_armMag,v_palmNormalMag):.2f}"
+                radDev,
+                flexEx,
+                pronation_angle(v_armMag,v_palmNormalMag)
             ])
-
+            deviationAverage = 0
+            flexationAverage = 0
+            pronatnionAverage = 0
+            for i in range(0, 20):
+                deviationAverage += handy[18][0]
+                flexationAverage +=handy[18][1]
+                pronatnionAverage += handy[18][2]
+            deviationAverage /= 20
+            flexationAverage /= 20
+            pronatnionAverage /= 20
             #final matrix document
             #[hand_type, palm, wrist, thumb joint, thumb middle, thumb tip, index joint, index middle, index tip, middle joint,
-<<<<<<< HEAD
-            # middle middle, middle tip, ring joint, ring middle, ring tip, pinky joint, pinky middle, pinky tip, angles 
-            # (radial deviation left pos, pro and extension down pos, rotation clockwise pos ) ]
-
-            finalData = {  "hand_type": handy[0],
-=======
             # middle middle, middle tip, ring joint, ring middle, ring tip, pinky joint, pinky middle, pinky tip, theta, phi ]
             self.finalData = {  "hand_type": handy[0],
->>>>>>> 31e0d62f2793d17031f2631ab8f3620a2b92901c
                          "palm":handy[1],
                          "wrist":handy[2],
                          "thumb_joint": handy[3],
@@ -123,12 +126,8 @@ class MyListener(leap.Listener):
                          "pinky_tip":handy[17],
                          "angle(LR, UPDO, ROT)" :handy[18]
             }
-<<<<<<< HEAD
-            
-=======
             os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = "/Users/jonnie/Downloads/hacktech25brjk-firebase-adminsdk-fbsvc-fcb62fcc70.json"
             db = firestore.Client()
->>>>>>> 31e0d62f2793d17031f2631ab8f3620a2b92901c
 
             # Reference to the Firestore collection
             collection_ref = db.collection('first')
@@ -137,6 +136,30 @@ class MyListener(leap.Listener):
             custom_id = 'my_custom_id_124'  # <-- You define your ID here
 
             # Data to be added to the document
+            now = datetime.now()
+            formatted_time = now.strftime("%H:%M:%S")
+            if (self.finalData["hand_type"] == "right"):
+                data = {
+                    'hand_type': self.finalData["hand_type"],
+                    'wrist': self.finalData["palm"],
+                    "thumb_joint": self.finalData["thumb_joint"],
+                    "thumb_middle": self.finalData["thumb_middle"],
+                    "thumb_tip": self.finalData["thumb_tip"],
+                    "index_joint": self.finalData["index_joint"],
+                    "index_middle": self.finalData["index_middle"],
+                    "index_tip": self.finalData["index_tip"],
+                    "ring_joint":self.finalData["ring_joint"],
+                    "ring_middle":self.finalData["ring_middle"],
+                    "ring_tip":self.finalData["ring_tip"],
+                    "pinky_joint": self.finalData["pinky_tip"],
+                    "pinky_middle": self.finalData["pinky_middle"],
+                    "pinky_tip": self.finalData["pinky_tip"],
+                    "deviation": int(self.finalData["angle(LR, UPDO, ROT)"][0])*-1,
+                    "flexion": int(self.finalData["angle(LR, UPDO, ROT)"][1])*-1,
+                    "pronation": int(self.finalData["angle(LR, UPDO, ROT)"][2])*-1,
+                    "pointAverage": {"x":deviationAverage*-1, "y":flexationAverage*-1, "z":pronatnionAverage*-1},
+                    "timestamp": formatted_time
+                }
             data = {
                 'hand_type': self.finalData["hand_type"],
                 'wrist': self.finalData["palm"],
@@ -151,10 +174,14 @@ class MyListener(leap.Listener):
                 "ring_tip":self.finalData["ring_tip"],
                 "pinky_joint": self.finalData["pinky_tip"],
                 "pinky_middle": self.finalData["pinky_middle"],
-                "pinky_tip": self.finalData["pinky_tip"]
-
+                "pinky_tip": self.finalData["pinky_tip"],
+                "deviation": self.finalData["angle(LR, UPDO, ROT)"][0],
+                "flexion": self.finalData["angle(LR, UPDO, ROT)"][1],
+                "pronation": self.finalData["angle(LR, UPDO, ROT)"][2],
+                "pointAverage": {"x":deviationAverage, "y":flexationAverage, "z":pronatnionAverage},
+                "timestamp": formatted_time
             }
-
+            print(self.finalData)
             # Create a reference to the document with the custom ID
             doc_ref = collection_ref.add(data)
 # Call the function to add the document
