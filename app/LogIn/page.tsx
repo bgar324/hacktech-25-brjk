@@ -125,8 +125,8 @@ const page = () => {
           <Navbar />
           <div className="max-w-4xl mx-auto pt-12 px-4">
             <div className="bg-white rounded-lg shadow-lg overflow-hidden">
-              <div className="flex">
-                <div className="hidden md:block w-1/2 p-4">
+              <div className="flex flex-col md:flex-row items-center">
+                <div className="w-1/2 md:p-4">
                   <Image
                     src="/static/login-images/hands.png"
                     alt="Login illustration"
@@ -139,7 +139,7 @@ const page = () => {
                 <div className="w-full md:w-1/2 p-8">
                   {user ? (
                     <div className="space-y-4 text-center">
-                      <h2 className="text-3xl font-semibold mb-6">
+                      <h2 className="text-xl md:text-3xl font-semibold mb-6">
                         Welcome, {user.displayName || "User"}!
                       </h2>
                       <button
@@ -151,7 +151,7 @@ const page = () => {
                     </div>
                   ) : (
                     <>
-                      <h2 className="text-3xl font-semibold mb-6 text-center">
+                      <h2 className="text-2xl md:text-3xl font-semibold mb-6 text-center">
                         {isSignUp ? "Create Account" : "Welcome Back!"}
                       </h2>
                       {isSignUp && (
@@ -220,14 +220,14 @@ const page = () => {
                           placeholder="Email"
                           value={email}
                           onChange={(e) => setEmail(e.target.value)}
-                          className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                          className="text-sm md:text-lg w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
                         />
                         <input
                           type="password"
                           placeholder="Password"
                           value={password}
                           onChange={(e) => setPassword(e.target.value)}
-                          className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                          className="text-sm md:text-lg  w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
                         />
                         <button
                           onClick={handleEmailAuth}
@@ -237,20 +237,20 @@ const page = () => {
                               (check) => check
                             )
                           }
-                          className={`w-full py-2 rounded-lg transition duration-200 ${
+                          className={`text-sm md:text-lg w-full py-2 rounded-lg transition duration-200 ${
                             isSignUp &&
                             !Object.values(passwordChecks).every(
                               (check) => check
                             )
                               ? "bg-blue-300 cursor-not-allowed"
-                              : "bg-blue-600 text-white hover:bg-blue-700"
+                              : "bg-blue-600 text-white hover:bg-blue-700 cursor-pointer"
                           }`}
                         >
                           {isSignUp ? "Sign Up" : "Sign In"}
                         </button>
                         <button
                           onClick={handleGoogleSignIn}
-                          className="w-full bg-white text-gray-700 border border-gray-300 py-2 rounded-lg hover:bg-gray-50 transition duration-200 flex items-center justify-center"
+                          className="w-full bg-white text-gray-700 border border-gray-300 py-2 rounded-lg hover:bg-gray-50 transition duration-200 flex items-center justify-center text-sm md:text-lg cursor-pointer"
                         >
                           <svg className="w-5 h-5 mr-2" viewBox="0 0 24 24">
                             <path
@@ -275,7 +275,7 @@ const page = () => {
                         <div className="text-center">
                           <button
                             onClick={() => setIsSignUp(!isSignUp)}
-                            className="text-blue-600 hover:text-blue-700"
+                            className="text-blue-600 hover:text-blue-700 text-sm md:text-lg cursor-pointer"
                           >
                             {isSignUp
                               ? "Already have an account? Sign in"

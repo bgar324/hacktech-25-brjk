@@ -35,14 +35,14 @@ export default function Dashboard() {
   return (
     <div className="min-h-screen max-w-screen flex flex-col">
       <Navbar />
-      <main className="flex-grow max-w-full w-full mx-auto flex flex-col gap-12 items-center justify-center px-24">
+      <main className="flex-grow max-w-full w-full mx-auto flex flex-col gap-12 items-center justify-center px-8 md:px-24">
         <div className="text-center items-center">
           {user && (
-            <h2 className="text-2xl font-mono font-semibold text-gray-700">
+            <h2 className="text-lg md:text-2xl font-mono font-semibold text-gray-700">
               hi, {user.displayName || "there"}!
             </h2>
           )}
-          <h1 className="text-4xl font-semibold text-center">
+          <h1 className="text-2xl md:text-4xl font-semibold text-center">
             Your Ergonomic Dashboard
           </h1>
         </div>
