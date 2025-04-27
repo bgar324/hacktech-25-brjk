@@ -20,11 +20,18 @@ Within Hei.AI's website, users can monitor their wrists' angle measurements with
 
 ## Installation
 1. Get API Keys from Wolfram Alpha AI and Open AI
-2. Clone the repository: <br>
+2. Clone the repository: \n
 git clone https://github.com/bgar324/hacktech-25-brjk.git <br>
 cd hacktech-25-brjk
 3. Install all neccessary files for NPM and Leap
-
+* Download UltraLeap Software <br>
+* cd newFolder
+* Follow all installations in README.md inside of newFolder
+* Create and activate a virtual environment <br>
+pip install -r requirements.txtgit <br>
+python -m build leapc-cffi <br>
+pip install leapc-cffi/dist/leapc_cffi-0.0.1.tar.gz <br>
+pip install -e leapc-python-api <br>
 4. Enter your API keys in open_wolfram.py
 
 ## Acknowledgements 
