@@ -1,27 +1,42 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 import subprocess
+import json
+import os
 
 app = FastAPI()
 
-# Allow CORS for the React app running on localhost:3000
-origins = [
-    "http://localhost:3000",  # Your React app's URL
-]
-
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=origins,  # Allow requests from React
+    allow_origins=["http://localhost:3000"],  # Ensure this matches the frontend URL
     allow_credentials=True,
-    allow_methods=["*"],  # Allow all methods
-    allow_headers=["*"],  # Allow all headers
+    allow_methods=["*"],
+    allow_headers=["*"],
 )
+
+# Root endpoint to stop 404
+@app.get("/")
+def read_root():
+    return {"message": "Welcome to the FastAPI server!"}
 
 @app.get("/start-recording")
 async def start_recording():
-    script_path = "./tracking_event_example.py"  # Replace with your actual script path
+    script_path = "./tracking_event_example.py"  # Your script
+    json_path = "newFolder/examples/output.json"  # <-- Path to the JSON file your script creates
     try:
+        
         subprocess.run(["python", script_path], check=True)
-        return {"message": "Recording started successfully!"}
-    except subprocess.CalledProcessError:
-        return {"message": "Error occurred while running the script."}
+        # # return {"message": "Welcome to!"}
+        # print("JSON data:")
+        # if os.path.exists(json_path):
+        #     with open(json_path, "r") as f:
+        #         data = json.load(f)
+        #         print("JSON data:", data)  # <<< This will print the JSON to your server console
+        #         return data  # <<< This will RETURN the JSON to the client!
+        # else:
+        #     print("JSON file not found.")
+        #     return {"message": "Script ran but no JSON file was found."}
+
+    except subprocess.CalledProcessError as e:
+        print(f"Error running script: {e}")
+        print( {"message": "Error occurred while running the script."})

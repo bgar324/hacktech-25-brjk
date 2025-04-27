@@ -118,11 +118,11 @@ const TechPortion = () => {
       </Table>
 
       <div className="mt-6">
-        <h3 className="text-xl font-semibold mb-3">Data Flow</h3>
-        <p className="text-gray-700">
+        <h3 className="text-lg md:text-xl font-semibold mb-3">Data Flow</h3>
+        <p className="text-sm md:text-base text-gray-700">
           The Leap Motion sensor continuously captures hand position data, which
           is processed by our Python backend to detect ergonomic risks. This
-          data is then stored in Firebase and immediately reflected in the React
+          data is then stored in a Firestore Database and immediately reflected in the React
           frontend, providing users with real-time feedback about their hand
           posture and potential strain risks.
         </p>
