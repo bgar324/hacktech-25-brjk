@@ -1,4 +1,4 @@
-import { getFirestore } from "firebase/firestore";
+import { getFirestore, serverTimestamp } from "firebase/firestore";
 import { initializeApp, getApps, getApp } from "firebase/app";
 import { getAuth } from "firebase/auth";
 const firebaseConfig = {

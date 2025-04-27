@@ -13,12 +13,12 @@ export default function Dashboard() {
 
   const startRecording = async () => {
     try {
-      const response = await fetch("http://127.0.0.1:0000/start-recording", {
+      const response = await fetch("http://127.0.0.1:8004/start-recording", {
         method: "GET",
       });
       if (response.ok) {
         const data = await response.json();
-        console.log(data.message); // Log the message from FastAPI
+        // console.log(data.message); // Log the message from FastAPI
       } else {
         console.error("Failed to start recording");
       }
