@@ -42,7 +42,7 @@ export default function Dashboard() {
       const response = await fetch("http://127.0.0.1:8004/start-recording");
       if (response.ok) {
         setIsRecording(true);
-        const { message } = await res.json();
+        const { message } = await response.json();
         console.log(message);
       }
     } catch {
