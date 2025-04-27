@@ -10,6 +10,7 @@ import numpy as np
 import json
 import os
 from google.cloud import firestore
+from datetime import datetime
 
 global finalData
 class MyListener(leap.Listener):
@@ -105,6 +106,8 @@ class MyListener(leap.Listener):
             custom_id = 'my_custom_id_124'  # <-- You define your ID here
 
             # Data to be added to the document
+            now = datetime.now()
+            formatted_time = now.strftime("%H:%M:%S")
             data = {
                 'hand_type': self.finalData["hand_type"],
                 'wrist': self.finalData["palm"],
@@ -119,8 +122,8 @@ class MyListener(leap.Listener):
                 "ring_tip":self.finalData["ring_tip"],
                 "pinky_joint": self.finalData["pinky_tip"],
                 "pinky_middle": self.finalData["pinky_middle"],
-                "pinky_tip": self.finalData["pinky_tip"]
-
+                "pinky_tip": self.finalData["pinky_tip"],
+                "timestamp": formatted_time
             }
 
             # Create a reference to the document with the custom ID
