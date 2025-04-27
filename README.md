@@ -27,7 +27,11 @@ cd hacktech-25-brjk
 * Download UltraLeap Software (Note: Should use a virtual environment to run the code) <br>
 * cd newFolder
 * Follow all installations in README.md inside of newFolder
-* 
+* Create and activate a virtual environment
+pip install -r requirements.txt
+python -m build leapc-cffi
+pip install leapc-cffi/dist/leapc_cffi-0.0.1.tar.gz
+pip install -e leapc-python-api
 4. Enter your API keys in open_wolfram.py
 
 ## Acknowledgements 
