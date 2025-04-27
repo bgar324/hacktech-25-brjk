@@ -19,7 +19,7 @@ const Page = () => {
         <div className="flex-1">
           <Navbar />
           <div className="max-w-screen-7xl items-center justify-center text-center px-4 md:px-32">
-            <h1 className="text-xl md:text-3xl mb-4 md:leading-12">
+            <h1 className="text-xl md:text-3xl mb-4 md:leading-12 font-semibold">
               Detecting wrist and hand strain before you even feel it
             </h1>
             <p className="text-gray-700 mb-6 text-sm md:text-base">

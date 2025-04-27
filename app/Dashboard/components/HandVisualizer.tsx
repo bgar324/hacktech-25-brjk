@@ -86,8 +86,8 @@ export default function HandVisualizer() {
 
   return (
     <svg
-      width={400}
-      height={400}
+      width={500}
+      height={500}
       style={{ background: "#f0f0f0", borderRadius: 8 }}
     >
       {BONES.map(([a, b], i) => {
