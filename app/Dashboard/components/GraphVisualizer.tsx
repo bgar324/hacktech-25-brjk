@@ -40,21 +40,21 @@ const GraphVisualizer: React.FC<Props> = ({ data }) => (
         dataKey="flexion"
         name="Flexion (°)"
         stroke="#8884d8"
-        dot={false}
+        dot={true}
       />
       <Line
         type="monotone"
         dataKey="deviation"
         name="Deviation (°)"
         stroke="#82ca9d"
-        dot={false}
+        dot={true}
       />
       <Line
         type="monotone"
         dataKey="pronation"
         name="Pronation (°)"
         stroke="#ffc658"
-        dot={false}
+        dot={true}
       />
     </LineChart>
   </ResponsiveContainer>
