@@ -26,73 +26,59 @@ export default function Dashboard() {
   useEffect(() => {
     const framesRef = collection(db, "first");
     const q = query(framesRef, orderBy("timestamp", "asc"));
-    const unsub = onSnapshot(
-      q,
-      (snap) => {
-        if (snap.empty) return;
-        const latest = snap.docs[snap.docs.length - 1].data();
-        setFlexion(parseFloat(latest.flexion));
-        setDeviation(parseFloat(latest.deviation));
-        setPronation(parseFloat(latest.pronation));
-      },
-      console.error
-    );
+    const unsub = onSnapshot(q, (snap) => {
+      if (snap.empty) return;
+      const latest = snap.docs[snap.docs.length - 1].data();
+      setFlexion(parseFloat(latest.flexion));
+      setDeviation(parseFloat(latest.deviation));
+      setPronation(parseFloat(latest.pronation));
+    });
     return () => unsub();
   }, []);
 
   const startRecording = async () => {
     try {
-      const response = await fetch("http://127.0.0.1:0000/start-recording", {
-        method: "GET",
-      });
+      const response = await fetch("http://127.0.0.1:0000/start-recording");
       if (response.ok) {
         setIsRecording(true);
         const data = await response.json();
-        console.log(data.message); // Log the message from FastAPI
-      } else {
-        console.error("Failed to start recording");
+        console.log(data.message);
       }
     } catch (error) {
-      console.error("Error while connecting to the backend:", error);
+      console.error(error);
     }
   };
 
   useEffect(() => {
     if (!isRecording) return;
-    setHistory([]);
     const q = query(collection(db, "first"), orderBy("timestamp", "asc"));
-    const unsub = onSnapshot(
-      q,
-      (snap) => {
-        if (snap.empty) return;
-        const doc = snap.docs[snap.docs.length - 1];
-        const data = doc.data();
+    const unsub = onSnapshot(q, (snap) => {
+      if (snap.empty) return;
+      const points = snap.docs.map((doc) => {
+        const d = doc.data();
         const ts =
-          typeof data.timestamp?.toMillis === "function"
-            ? data.timestamp.toMillis()
+          typeof d.timestamp?.toMillis === "function"
+            ? d.timestamp.toMillis()
             : Date.now();
-        setHistory((prev) => [
-          ...prev,
-          {
-            timestamp: ts,
-            flexion: parseFloat(data.flexion),
-            deviation: parseFloat(data.deviation),
-            pronation: parseFloat(data.pronation),
-          },
-        ]);
-      },
-      console.error
-    );
+        return {
+          timestamp: ts,
+          flexion: parseFloat(d.flexion),
+          deviation: parseFloat(d.deviation),
+          pronation: parseFloat(d.pronation),
+        };
+      });
+      setHistory(points);
+    });
     return () => unsub();
   }, [isRecording]);
 
-  const handleRecordingClick = () => {
-    if (!isRecording) {
-      startRecording();
-    } else {
-      // you can add pause logic or navigation to diagnostics here
-    }
-  };
+  // const handleRecordingClick = () => {
+  //   if (!isRecording) {
+  //     startRecording();
+  //   } else {
+  //     // you can add pause logic or navigation to diagnostics here
+  //   }
+  // };
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
@@ -166,7 +152,7 @@ export default function Dashboard() {
               </div>
             </div>
             <button
-              onClick={handleRecordingClick}
+              onClick={startRecording}
               className="mt-4 bg-gray-200 hover:bg-gray-200/80 p-3 rounded-lg"
             >
               {isRecording ? "Recording…" : "Start recording"}
