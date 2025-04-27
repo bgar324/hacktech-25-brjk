@@ -24,14 +24,14 @@ Within Hei.AI's website, users can monitor their wrists' angle measurements with
 git clone https://github.com/bgar324/hacktech-25-brjk.git <br>
 cd hacktech-25-brjk
 3. Install all neccessary files for NPM and Leap
-* Download UltraLeap Software (Note: Should use a virtual environment to run the code) <br>
+* Download UltraLeap Software <br>
 * cd newFolder
 * Follow all installations in README.md inside of newFolder
-* Create and activate a virtual environment
-pip install -r requirements.txtgit
-python -m build leapc-cffi
-pip install leapc-cffi/dist/leapc_cffi-0.0.1.tar.gz
-pip install -e leapc-python-api
+* Create and activate a virtual environment <br>
+pip install -r requirements.txtgit <br>
+python -m build leapc-cffi <br>
+pip install leapc-cffi/dist/leapc_cffi-0.0.1.tar.gz <br>
+pip install -e leapc-python-api <br>
 4. Enter your API keys in open_wolfram.py
 
 ## Acknowledgements 
