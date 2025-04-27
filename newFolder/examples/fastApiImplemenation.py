@@ -40,3 +40,14 @@ async def start_recording():
     except subprocess.CalledProcessError as e:
         print(f"Error running script: {e}")
         print( {"message": "Error occurred while running the script."})
+
+@app.get("/stop-recording")
+async def stop_recording():
+    global tracking_process
+    if tracking_process and tracking_process.poll() is None:
+        tracking_process.terminate()   # politely ask it to stop
+        tracking_process.wait(timeout=5)  # give it up to 5s
+        tracking_process = None
+        return {"message": "Recording stopped"}
+    else:
+        return {"message": "No recording in progress"}

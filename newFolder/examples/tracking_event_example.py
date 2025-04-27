@@ -10,6 +10,7 @@ import numpy as np
 import json
 import os
 from google.cloud import firestore
+from datetime import datetime
 
 global finalData
 class MyListener(leap.Listener):
@@ -54,28 +55,54 @@ class MyListener(leap.Listener):
                 handy.append([f"{j.x:.2f}", f"{j.y:.2f}", f"{j.z:.2f}"])
 
             
-            # # 1) grab the elbow & wrist from the arm bone
-            
-
+            v_palmNormal = np.array([
+            hand.palm.normal.x,
+            hand.palm.normal.y,
+            hand.palm.normal.z
+            ])
+            v_palmNormalMag = v_palmNormal / np.linalg.norm(v_palmNormal)
+        
             # # build the “forearm” vector elbow→wrist
-            # varmx = wrist_pt.x - elbow.x
-            # varmy = wrist_pt.y - elbow.y
-            # varmz = wrist_pt.z - elbow.z
-            # v_arm =np.array[varmx, varmy, varmz]
-
-            #v_armMag = v_arm/sum(v_arm)
+            varmx = wrist_pt.x - elbow.x
+            varmy = wrist_pt.y - elbow.y
+            varmz = wrist_pt.z - elbow.z
+            v_arm =np.array([varmx, varmy, varmz])
+            v_armMag = v_arm/np.linalg.norm(v_arm)
 
             # # 2) build the “wrist→palm” vector
-            # palm_pt = hand.palm.position
-            #v_wrist = [hand.palm.position.x - wrist_pt.x, hand.palm.position.y - wrist_pt.y, hand.palm.position.z - wrist_pt.z]
-            #v_wristMag = v_wrist/sum(v_wrist)
+            palm_pt = hand.palm.position
+            v_wrist = np.array([hand.palm.position.x - wrist_pt.x, hand.palm.position.y - wrist_pt.y, hand.palm.position.z - wrist_pt.z])
+            v_wristMag = v_wrist/np.linalg.norm(v_wrist)
             
-            # theta = np.arccos(np.clip(np.dot(v_armMag[0:1], v_wristMag[0:1]))) #projection angle calc onto x-y plane
-            # phi = np.arccos(np.clip(np.dot(v_armMag[1:2], v_wristMag[1:2])))   #projecction angle calc ony y-z plane
+            radDev = np.arccos(np.clip(np.dot(v_armMag, v_wristMag), -1.0, 1.0 )) *180 / np.pi
+            flexEx = (np.arctan2(v_wrist[1], v_wrist[0]) - np.arctan2(v_arm[1], v_arm[0]))*180 / np.pi
+            
+            def pronation_angle(a, p, up=np.array([0.,0.,1.])):
+                referencePlane = (up - np.dot(up, a))
+                referencePlane = referencePlane / np.linalg.norm(referencePlane)
 
+                proj = p - np.dot(p, a)*a
+                proj = proj / np.linalg.norm(proj)
 
-            # handy.append([theta, phi])
-
+                x = np.dot(referencePlane,    proj)
+                y = np.dot(a, np.cross(referencePlane, proj))
+                return 90 + np.arctan2(y, x) *180 / np.pi
+            
+            handy.append([
+                radDev,
+                flexEx,
+                pronation_angle(v_armMag,v_palmNormalMag)
+            ])
+            deviationAverage = 0
+            flexationAverage = 0
+            pronatnionAverage = 0
+            for i in range(0, 20):
+                deviationAverage += handy[18][0]
+                flexationAverage +=handy[18][1]
+                pronatnionAverage += handy[18][2]
+            deviationAverage /= 20
+            flexationAverage /= 20
+            pronatnionAverage /= 20
             #final matrix document
             #[hand_type, palm, wrist, thumb joint, thumb middle, thumb tip, index joint, index middle, index tip, middle joint,
             # middle middle, middle tip, ring joint, ring middle, ring tip, pinky joint, pinky middle, pinky tip, theta, phi ]
@@ -88,12 +115,16 @@ class MyListener(leap.Listener):
                          "index_joint":handy[6],
                          "index_middle": handy[7],
                          "index_tip": handy[8],
-                         "ring_joint":handy[9],
-                         "ring_middle": handy[10],
-                         "ring_tip": handy[11],
-                         "pinky_joint": handy[12],
-                         "pinky_middle": handy[13],
-                         "pinky_tip":handy[14],
+                         "middle_joint":handy[9],
+                         "middle_middle": handy[10],
+                         "middle_tip": handy[11],
+                         "ring_joint":handy[12],
+                         "ring_middle": handy[13],
+                         "ring_tip": handy[14],
+                         "pinky_joint": handy[15],
+                         "pinky_middle": handy[16],
+                         "pinky_tip":handy[17],
+                         "angle(LR, UPDO, ROT)" :handy[18]
             }
             os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = "/Users/jonnie/Downloads/hacktech25brjk-firebase-adminsdk-fbsvc-fcb62fcc70.json"
             db = firestore.Client()
@@ -105,6 +136,30 @@ class MyListener(leap.Listener):
             custom_id = 'my_custom_id_124'  # <-- You define your ID here
 
             # Data to be added to the document
+            now = datetime.now()
+            formatted_time = now.strftime("%H:%M:%S")
+            if (self.finalData["hand_type"] == "right"):
+                data = {
+                    'hand_type': self.finalData["hand_type"],
+                    'wrist': self.finalData["palm"],
+                    "thumb_joint": self.finalData["thumb_joint"],
+                    "thumb_middle": self.finalData["thumb_middle"],
+                    "thumb_tip": self.finalData["thumb_tip"],
+                    "index_joint": self.finalData["index_joint"],
+                    "index_middle": self.finalData["index_middle"],
+                    "index_tip": self.finalData["index_tip"],
+                    "ring_joint":self.finalData["ring_joint"],
+                    "ring_middle":self.finalData["ring_middle"],
+                    "ring_tip":self.finalData["ring_tip"],
+                    "pinky_joint": self.finalData["pinky_tip"],
+                    "pinky_middle": self.finalData["pinky_middle"],
+                    "pinky_tip": self.finalData["pinky_tip"],
+                    "deviation": int(self.finalData["angle(LR, UPDO, ROT)"][0])*-1,
+                    "flexion": int(self.finalData["angle(LR, UPDO, ROT)"][1])*-1,
+                    "pronation": int(self.finalData["angle(LR, UPDO, ROT)"][2])*-1,
+                    "pointAverage": {"x":deviationAverage*-1, "y":flexationAverage*-1, "z":pronatnionAverage*-1},
+                    "timestamp": formatted_time
+                }
             data = {
                 'hand_type': self.finalData["hand_type"],
                 'wrist': self.finalData["palm"],
@@ -119,10 +174,14 @@ class MyListener(leap.Listener):
                 "ring_tip":self.finalData["ring_tip"],
                 "pinky_joint": self.finalData["pinky_tip"],
                 "pinky_middle": self.finalData["pinky_middle"],
-                "pinky_tip": self.finalData["pinky_tip"]
-
+                "pinky_tip": self.finalData["pinky_tip"],
+                "deviation": self.finalData["angle(LR, UPDO, ROT)"][0],
+                "flexion": self.finalData["angle(LR, UPDO, ROT)"][1],
+                "pronation": self.finalData["angle(LR, UPDO, ROT)"][2],
+                "pointAverage": {"x":deviationAverage, "y":flexationAverage, "z":pronatnionAverage},
+                "timestamp": formatted_time
             }
-
+            print(self.finalData)
             # Create a reference to the document with the custom ID
             doc_ref = collection_ref.add(data)
 # Call the function to add the document

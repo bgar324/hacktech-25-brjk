@@ -37,15 +37,23 @@ export default function Home() {
   const [password, setPassword] = useState("");
 
   const userDataCollection = collection(firestore, "first");
-  const userAnimation = collection(firestore, "animation")
+  const userAnimation = collection(firestore, "animation");
   function getRandomPoint(maxX: number, maxY: number): number {
     return Math.random() * maxX;
   }
   async function addUserData() {
     try {
       const docRef = await addDoc(userDataCollection, {
-        WristRadialAngle:  { x: getRandomPoint(1, 100), y: getRandomPoint(1, 100), z: getRandomPoint(1, 100)},
-        PronationAngle: { x: getRandomPoint(1, 100), y: getRandomPoint(1, 100), z: getRandomPoint(1, 100)},
+        WristRadialAngle: {
+          x: getRandomPoint(1, 100),
+          y: getRandomPoint(1, 100),
+          z: getRandomPoint(1, 100),
+        },
+        PronationAngle: {
+          x: getRandomPoint(1, 100),
+          y: getRandomPoint(1, 100),
+          z: getRandomPoint(1, 100),
+        },
       });
       console.log("Document successfully written with ID:", docRef.id);
     } catch (error: any) {
@@ -53,16 +61,15 @@ export default function Home() {
     }
   }
   async function addUserAnimation() {
-    try{
+    try {
       for (let i = 0; i < 500 && i < 500; i++) {
         const frameDoc = {
-          WristRadialAngle: {x:2, y:1, z:1},
-          PronationAngle: {x:1, y:1, z:1}
-        }
+          WristRadialAngle: { x: 2, y: 1, z: 1 },
+          PronationAngle: { x: 1, y: 1, z: 1 },
+        };
         const frameDocRef = doc(userAnimation, `frame${i}`);
         await setDoc(frameDocRef, frameDoc);
         console.log(`Frame ${i} set successfully.`);
-
       }
       console.log("All frames uploaded.");
     } catch (error: any) {
@@ -133,17 +140,26 @@ export default function Home() {
               <p className="font-mono text-gray-400 italic text-sm">
                 (with wolfram|alpha)
               </p>
-              <a
-                href="/ScienceBehind"
-                className="bg-amber-400 rounded-full flex flex-row text-center items-center w-fit hover:bg-amber-500 px-4 py-2 font-mono mt-4 duration-200 ease-in-out transition-all gap-4"
-              >
-                learn more<ArrowRightIcon size = {16}/>
-              </a>
+              <div className="flex flex-row gap-4">
+                <a
+                  href="/ScienceBehind"
+                  className="bg-amber-400 rounded-full flex flex-row text-center items-center w-fit hover:bg-amber-500 px-4 py-2 font-mono mt-4 duration-200 ease-in-out transition-all gap-4"
+                >
+                  learn more
+                  <ArrowRightIcon size={16} />
+                </a>
+                <a
+                  href="/Dashboard"
+                  className="bg-blue-300 rounded-full flex flex-row text-center items-center w-fit hover:bg-blue-300/80 px-4 py-2 font-mono mt-4 duration-200 ease-in-out transition-all gap-4"
+                >
+                  dashboard <ArrowRightIcon size={16} />
+                </a>
+              </div>
             </div>
           </div>
-        </div>  
-      <Footer />
-    </div>
+        </div>
+        <Footer />
+      </div>
     </>
   );
 }

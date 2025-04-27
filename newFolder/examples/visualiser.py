@@ -141,7 +141,7 @@ def main():
     print("  x: Exit")
     print("  h: Select HMD tracking mode")
     print("  s: Select ScreenTop tracking mode")
-    print("  d: Select Desktop tracking mode")
+    print("  d: Select ScreenTop tracking mode")
     print("  f: Toggle hands format between Skeleton/Dots")
 
     tracking_listener = TrackingListener(canvas)
@@ -152,8 +152,8 @@ def main():
     running = True
 
     with connection.open():
-        connection.set_tracking_mode(leap.TrackingMode.Desktop)
-        canvas.set_tracking_mode(leap.TrackingMode.Desktop)
+        connection.set_tracking_mode(leap.TrackingMode.ScreenTop)
+        canvas.set_tracking_mode(leap.TrackingMode.ScreenTop)
 
         while running:
             cv2.imshow(canvas.name, canvas.output_image)
@@ -163,11 +163,11 @@ def main():
             if key == ord("x"):
                 break
             elif key == ord("h"):
-                connection.set_tracking_mode(leap.TrackingMode.HMD)
+                connection.set_tracking_mode(leap.TrackingMode.ScreenTop)
             elif key == ord("s"):
                 connection.set_tracking_mode(leap.TrackingMode.ScreenTop)
             elif key == ord("d"):
-                connection.set_tracking_mode(leap.TrackingMode.Desktop)
+                connection.set_tracking_mode(leap.TrackingMode.ScreenTop)
             elif key == ord("f"):
                 canvas.toggle_hands_format()
 

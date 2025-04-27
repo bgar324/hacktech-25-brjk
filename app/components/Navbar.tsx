@@ -81,35 +81,15 @@ export default function Navbar(): JSX.Element {
           </NavigationMenu>
 
           <Separator orientation="vertical" className="h-6 bg-gray-400" />
-
-          {user ? (
-            <>
-              <Button
-                asChild
-                variant="default"
-                className="rounded-full bg-blue-300 hover:bg-blue-400"
-              >
-                <a href="/Dashboard" target="_blank">
-                  Dashboard
-                </a>
-              </Button>
-              <Button
-                variant="default"
-                className="rounded-full bg-amber-400 hover:bg-amber-500"
-                onClick={handleSignOut}
-              >
-                Log Out
-              </Button>
-            </>
-          ) : (
-            <Button
-              asChild
-              variant="default"
-              className="rounded-full bg-amber-400 hover:bg-amber-500"
-            >
-              <a href="/LogIn">Log In</a>
-            </Button>
-          )}
+          <Button
+            asChild
+            variant="default"
+            className="rounded-full bg-blue-300 hover:bg-blue-400"
+          >
+            <a href="/Dashboard" target="_blank">
+              Dashboard
+            </a>
+          </Button>
         </div>
       </div>
 

@@ -1,13 +1,7 @@
 // HandVisualizer.tsx
 "use client";
-import { useEffect, useState } from "react";
-import {
-  collection,
-  query,
-  orderBy,
-  limit,
-  onSnapshot,
-} from "firebase/firestore";
+import { useEffect, useState, useRef } from "react";
+import { collection, query, orderBy, onSnapshot } from "firebase/firestore";
 import { db } from "@/app/firebase";
 
 const KEYS = [
@@ -18,6 +12,9 @@ const KEYS = [
   "index_joint",
   "index_middle",
   "index_tip",
+  "middle_joint",
+  "middle_middle",
+  "middle_tip",
   "ring_joint",
   "ring_middle",
   "ring_tip",
@@ -27,6 +24,9 @@ const KEYS = [
 ] as const;
 type JointKey = (typeof KEYS)[number];
 
+// simple numeric frame, XZ only
+type NumFrame = Record<JointKey, [number, number]>;
+
 const BONES: [JointKey, JointKey][] = [
   ["wrist", "thumb_joint"],
   ["thumb_joint", "thumb_middle"],
@@ -34,6 +34,9 @@ const BONES: [JointKey, JointKey][] = [
   ["wrist", "index_joint"],
   ["index_joint", "index_middle"],
   ["index_middle", "index_tip"],
+  ["wrist", "middle_joint"],
+  ["middle_joint", "middle_middle"],
+  ["middle_middle", "middle_tip"],
   ["wrist", "ring_joint"],
   ["ring_joint", "ring_middle"],
   ["ring_middle", "ring_tip"],
@@ -83,8 +86,8 @@ export default function HandVisualizer() {
 
   return (
     <svg
-      width={400}
-      height={400}
+      width={500}
+      height={500}
       style={{ background: "#f0f0f0", borderRadius: 8 }}
     >
       {BONES.map(([a, b], i) => {
