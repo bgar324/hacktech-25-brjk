@@ -5,9 +5,8 @@ import {
   collection,
   query,
   orderBy,
+  limit,
   onSnapshot,
-  QuerySnapshot,
-  DocumentData,
 } from "firebase/firestore";
 import { db } from "@/app/firebase";
 
@@ -48,19 +47,33 @@ export default function HandVisualizer() {
     useState<Record<JointKey, [string, string, string]>>();
 
   useEffect(() => {
-    const framesQ = query(collection(db, "first"), orderBy("timestamp", "asc"));
-    const unsub = onSnapshot(framesQ, (snap: QuerySnapshot<DocumentData>) => {
-      if (snap.empty) return;
-      const data = snap.docs[snap.docs.length - 1].data();
-      setFrame(data as any);
-    });
+    const framesRef = collection(db, "first");
+    const q = query(framesRef, orderBy("timestamp", "asc"));
+    const unsub = onSnapshot(
+      q,
+      (snap) => {
+        if (snap.empty) {
+          console.log("no frames yet");
+          return;
+        }
+        const docs = snap.docs;
+        const latestDoc = docs[docs.length - 1]; // Get the newest frame (last one)
+        console.log("new frame:", latestDoc.id);
+        setFrame(latestDoc.data() as any);
+      },
+      (err) => {
+        console.error("snapshot error:", err);
+      }
+    );
     return () => unsub();
   }, []);
 
+  // project X (horizontal) and Z (vertical) into SVG coords
   const project = (v: [string, string, string]): [number, number] => {
-    const X = parseFloat(v[0]),
-      Z = parseFloat(v[2]);
-    const SCALE = 400 / 400; // 400px / ±200mm
+    const X = parseFloat(v[0]);
+    const Z = parseFloat(v[2]);
+    // assuming leap coordinate X ∈ [-200,200], Z ∈ [-200,200]
+    const SCALE = 400 / 400; // 1px per mm
     const cx = (X + 200) * SCALE;
     const cy = 400 - (Z + 200) * SCALE;
     return [cx, cy];
@@ -78,8 +91,8 @@ export default function HandVisualizer() {
         const pa = frame[a],
           pb = frame[b];
         if (!pa || !pb) return null;
-        const [x1, y1] = project(pa),
-          [x2, y2] = project(pb);
+        const [x1, y1] = project(pa);
+        const [x2, y2] = project(pb);
         return (
           <line
             key={i}
