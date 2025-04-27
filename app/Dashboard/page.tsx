@@ -5,18 +5,20 @@ import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
 import { auth } from "../firebase";
 import { onAuthStateChanged, User } from "firebase/auth";
+import HandVisualizer from "./components/HandVisualizer";
 
 export default function Dashboard() {
   const [user, setUser] = useState<User | null>(null);
+  const [isRecording, setIsRecording] = useState(false);
+
   const startRecording = async () => {
     try {
       const response = await fetch("http://127.0.0.1:8004/start-recording", {
         method: "GET",
       });
-  
       if (response.ok) {
         const data = await response.json();
-        // console.log(data.message); // Log the message from FastAPI
+        console.log(data.message); // Log the message from FastAPI
       } else {
         console.error("Failed to start recording");
       }
@@ -24,11 +26,20 @@ export default function Dashboard() {
       console.error("Error while connecting to the backend:", error);
     }
   };
+
+  const handleRecordingClick = () => {
+    if (!isRecording) {
+      startRecording();
+      setIsRecording(true);
+    } else {
+      // you can add pause logic or navigation to diagnostics here
+    }
+  };
+
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
       setUser(currentUser);
     });
-
     return () => unsubscribe();
   }, []);
 
@@ -36,23 +47,22 @@ export default function Dashboard() {
     <div className="min-h-screen max-w-screen flex flex-col">
       <Navbar />
       <main className="flex-grow max-w-full w-full mx-auto flex flex-col gap-12 items-center justify-center px-24">
-        <div className = "text-center items-center">
+        <div className="text-center items-center">
           {user && (
-            <h2 className="text-2xl font-mono font-semibold text-gray-700">
+            <h2 className="text-lg md:text-2xl font-mono font-semibold text-gray-700">
               hi, {user.displayName || "there"}!
             </h2>
           )}
-          <h1 className="text-4xl font-semibold text-center">
+          <h1 className="text-2xl md:text-4xl font-semibold text-center">
             Your Ergonomic Dashboard
           </h1>
         </div>
 
         <div className="flex flex-col lg:flex-row gap-12 w-full max-w-[1600px]">
-          {/* Left side - Hand model */}
           <div className="flex flex-col flex-1">
             <div className="flex-1 bg-white rounded-2xl shadow-lg p-8 flex items-center justify-center min-h-[600px]">
               <div className="text-gray-400 text-2xl">
-                (Live Hand Model Goes Here)
+                <HandVisualizer />
               </div>
             </div>
             <div className="mt-8 bg-blue-100 text-blue-800 p-6 rounded-lg shadow-sm flex items-center justify-center">
@@ -62,9 +72,7 @@ export default function Dashboard() {
             </div>
           </div>
 
-          {/* Right side - Diagnostics + Graph */}
           <div className="w-full lg:w-2/5 flex flex-col gap-4">
-            {/* Diagnostics */}
             <div className="bg-white rounded-2xl shadow-md p-8">
               <h2 className="text-2xl font-semibold mb-4 text-center">
                 Diagnostics
@@ -89,7 +97,6 @@ export default function Dashboard() {
               </div>
             </div>
 
-            {/* Live Graph */}
             <div className="bg-white rounded-2xl shadow-md p-5">
               <h2 className="text-2xl font-semibold mb-3 text-center">
                 Live Wrist Graph
@@ -98,14 +105,12 @@ export default function Dashboard() {
                 (Live Chart Goes Here)
               </div>
             </div>
-            <button className="mt-8 bg-gray-200 hover:bg-gray-200/80 transition-all duration-200 ease-in-out not-only-of-type:text-blue-800 p-3 py-4 rounded-lg shadow-sm flex items-center justify-center cursor-pointer"
-            onClick={startRecording}>
+            <button onClick = {startRecording} className="mt-8 bg-gray-200 hover:bg-gray-200/80 transition-all duration-200 ease-in-out not-only-of-type:text-blue-800 p-3 py-4 rounded-lg shadow-sm flex items-center justify-center cursor-pointer">
               Start recording
             </button>
           </div>
         </div>
       </main>
-
       <Footer />
     </div>
   );

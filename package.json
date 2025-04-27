@@ -31,10 +31,12 @@
   "devDependencies": {
     "@babel/core": "^7.26.10",
     "@babel/preset-env": "^7.26.9",
+    "@tailwindcss/oxide-win32-x64-msvc": "^4.1.4",
     "@tailwindcss/postcss": "^4",
     "@types/node": "^20",
     "@types/react": "^19",
     "@types/react-dom": "^19",
+    "lightningcss-win32-x64-msvc": "^1.29.3",
     "tailwindcss": "^4.1.4",
     "ts-loader": "^9.5.2",
     "typescript": "^5.8.3",

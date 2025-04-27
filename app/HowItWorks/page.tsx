@@ -18,11 +18,11 @@ const Page = () => {
       <div className="min-h-screen max-w-screen flex flex-col">
         <div className="flex-1">
           <Navbar />
-          <div className="max-w-screen-7xl items-center justify-center text-center mx-32">
-            <h1 className="text-3xl mb-4 leading-12">
+          <div className="max-w-screen-7xl items-center justify-center text-center px-4 md:px-32">
+            <h1 className="text-xl md:text-3xl mb-4 md:leading-12">
               Detecting wrist and hand strain before you even feel it
             </h1>
-            <p className="text-gray-700 mb-6">
+            <p className="text-gray-700 mb-6 text-sm md:text-base">
               Our system captures real-time wrist and hand data, analyzes
               posture angles, and delivers instant ergonomic feedback to help
               prevent strain and injury.
