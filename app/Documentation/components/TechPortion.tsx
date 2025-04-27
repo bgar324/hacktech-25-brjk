@@ -32,7 +32,7 @@ const TechPortion = () => {
             <TableCell className="font-medium text-left">
               Sensor Processing Layer
             </TableCell>
-            <TableCell className="text-left">Leap Motion Service (Desktop)</TableCell>
+            <TableCell className="text-left">Ultraleap Hand Tracking (Desktop)</TableCell>
             <TableCell className="text-left break-words whitespace-normal">
               Processes raw infrared data into structured 3D hand models with
               positional and rotational information.
@@ -122,7 +122,7 @@ const TechPortion = () => {
         <p className="text-gray-700">
           The Leap Motion sensor continuously captures hand position data, which
           is processed by our Python backend to detect ergonomic risks. This
-          data is then stored in Firebase and immediately reflected in the React
+          data is then stored in a Firestore Database and immediately reflected in the React
           frontend, providing users with real-time feedback about their hand
           posture and potential strain risks.
         </p>
