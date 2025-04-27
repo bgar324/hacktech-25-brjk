@@ -1,3 +1,4 @@
+// app/page.tsx
 "use client";
 
 import React, { useEffect, useState } from "react";
@@ -19,14 +20,13 @@ export default function Dashboard() {
   const [history, setHistory] = useState<DataPoint[]>([]);
 
   useEffect(() => {
-    const unsubscribeAuth = onAuthStateChanged(auth, setUser);
-    return () => unsubscribeAuth();
+    return onAuthStateChanged(auth, setUser);
   }, []);
 
   useEffect(() => {
     const framesRef = collection(db, "first");
     const q = query(framesRef, orderBy("timestamp", "asc"));
-    const unsub = onSnapshot(q, (snap) => {
+    const unsub = onSnapshot(q, snap => {
       if (snap.empty) return;
       const latest = snap.docs[snap.docs.length - 1].data();
       setFlexion(parseFloat(latest.flexion));
@@ -38,28 +38,28 @@ export default function Dashboard() {
 
   const startRecording = async () => {
     try {
-      const response = await fetch("http://127.0.0.1:0000/start-recording");
-      if (response.ok) {
+      const res = await fetch("http://127.0.0.1:0000/start-recording");
+      if (res.ok) {
         setIsRecording(true);
-        const data = await response.json();
-        console.log(data.message);
+        const { message } = await res.json();
+        console.log(message);
       }
-    } catch (error) {
-      console.error(error);
+    } catch {
+      console.error("Recording failed");
     }
   };
 
   useEffect(() => {
     if (!isRecording) return;
-    const q = query(collection(db, "first"), orderBy("timestamp", "asc"));
-    const unsub = onSnapshot(q, (snap) => {
+    const framesRef = collection(db, "first");
+    const q = query(framesRef, orderBy("timestamp", "asc"));
+    const unsub = onSnapshot(q, snap => {
       if (snap.empty) return;
-      const points = snap.docs.map((doc) => {
+      const points = snap.docs.map(doc => {
         const d = doc.data();
-        const ts =
-          typeof d.timestamp?.toMillis === "function"
-            ? d.timestamp.toMillis()
-            : Date.now();
+        const ts = typeof d.timestamp?.toMillis === "function"
+          ? d.timestamp.toMillis()
+          : Date.now();
         return {
           timestamp: ts,
           flexion: parseFloat(d.flexion),
@@ -72,55 +72,30 @@ export default function Dashboard() {
     return () => unsub();
   }, [isRecording]);
 
-  // const handleRecordingClick = () => {
-  //   if (!isRecording) {
-  //     startRecording();
-  //   } else {
-  //     // you can add pause logic or navigation to diagnostics here
-  //   }
-  // };
-
-  useEffect(() => {
-    const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
-      setUser(currentUser);
-    });
-    return () => unsubscribe();
-  }, []);
-
   return (
-    <div className="min-h-screen max-w-screen flex flex-col">
+    <div className="min-h-screen flex flex-col">
       <Navbar />
-      <main className="flex-grow max-w-full w-full mx-auto flex flex-col gap-12 items-center justify-center px-24">
-        <div className="text-center items-center">
-          {user && (
-            <h2 className="text-lg md:text-2xl font-mono font-semibold text-gray-700">
-              hi, {user.displayName || "there"}!
-            </h2>
-          )}
-          <h1 className="text-2xl md:text-4xl font-semibold text-center">
-            Your Ergonomic Dashboard
-          </h1>
-        </div>
+      <main className="flex-grow w-full max-w-6xl mx-auto flex flex-col gap-12 px-4 py-8">
+        {user && (
+          <h2 className="text-center text-2xl font-mono font-semibold text-gray-700">
+            hi, {user.displayName || "there"}!
+          </h2>
+        )}
+        <h1 className="text-center text-4xl font-semibold">Your Ergonomic Dashboard</h1>
 
-        <div className="flex flex-col lg:flex-row gap-12 w-full max-w-[1600px]">
-          <div className="flex flex-col flex-1">
+        <div className="flex flex-col lg:flex-row gap-12">
+          <div className="flex-1 flex flex-col gap-8">
             <div className="flex-1 bg-white rounded-2xl shadow-lg p-8 flex items-center justify-center min-h-[600px]">
-              <div className="text-gray-400 text-2xl">
-                <HandVisualizer />
-              </div>
+              <HandVisualizer />
             </div>
-            <div className="mt-8 bg-blue-100 text-blue-800 p-6 rounded-lg shadow-sm flex items-center justify-center">
-              <p className="text-base font-semibold">
-                ⚠️ Try adjusting wrist posture – radial deviation is too high!
-              </p>
+            <div className="bg-blue-100 text-blue-800 p-6 rounded-lg shadow-sm text-center">
+              ⚠️ Try adjusting wrist posture – radial deviation is too high!
             </div>
           </div>
 
-          <div className="w-full lg:w-2/5 flex flex-col gap-4">
+          <div className="w-full lg:w-2/5 flex flex-col gap-6">
             <div className="bg-white rounded-2xl shadow-md p-8">
-              <h2 className="text-2xl font-semibold mb-4 text-center">
-                Live Diagnostics
-              </h2>
+              <h2 className="text-2xl font-semibold mb-4 text-center">Live Diagnostics</h2>
               <div className="space-y-3 text-base text-gray-700">
                 <div className="flex justify-between">
                   <span>Flexion:</span>
@@ -143,17 +118,13 @@ export default function Dashboard() {
               </div>
             </div>
 
-            <div className="bg-white rounded-2xl shadow-md p-5">
-              <h2 className="text-2xl font-semibold mb-3 text-center">
-                Live Wrist Graph
-              </h2>
-              <div className="h-64 bg-gray-100 rounded-lg flex items-center justify-center text-gray-400 text-base font-semibold">
-                <GraphVisualizer data={history} />
-              </div>
+            <div className="w-full h-64 bg-gray-100 rounded-lg overflow-hidden">
+              <GraphVisualizer data={history} />
             </div>
+
             <button
               onClick={startRecording}
-              className="mt-4 bg-gray-200 hover:bg-gray-200/80 p-3 rounded-lg"
+              className="mt-4 bg-gray-200 hover:bg-gray-200/80 p-3 rounded-lg text-center"
             >
               {isRecording ? "Recording…" : "Start recording"}
             </button>
