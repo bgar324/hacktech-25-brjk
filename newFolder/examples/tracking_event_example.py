@@ -155,7 +155,7 @@ class MyListener(leap.Listener):
                     "ring_joint":self.finalData["ring_joint"],
                     "ring_middle":self.finalData["ring_middle"],
                     "ring_tip":self.finalData["ring_tip"],
-                    "pinky_joint": self.finalData["pinky_tip"],
+                    "pinky_joint": self.finalData["pinky_joint"],
                     "pinky_middle": self.finalData["pinky_middle"],
                     "pinky_tip": self.finalData["pinky_tip"],
                     "deviation": int(self.finalData["angle(LR, UPDO, ROT)"][0])*-1,

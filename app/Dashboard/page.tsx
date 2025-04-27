@@ -24,7 +24,7 @@ export default function Dashboard() {
   useEffect(() => {
     const ref = collection(db, "first");
     const q = query(ref, orderBy("timestamp", "asc"));
-    const unsub = onSnapshot(q, snap => {
+    const unsub = onSnapshot(q, (snap) => {
       if (snap.empty) return;
       const latest = snap.docs[snap.docs.length - 1].data() as any;
       setFlexion(parseFloat(latest.flexion));
@@ -47,12 +47,8 @@ export default function Dashboard() {
 
   useEffect(() => {
     if (!isRecording) return;
-    if (
-      flexion !== null &&
-      deviation !== null &&
-      pronation !== null
-    ) {
-      setHistory(prev => [
+    if (flexion !== null && deviation !== null && pronation !== null) {
+      setHistory((prev) => [
         ...prev,
         {
           timestamp: Date.now(),
@@ -68,18 +64,20 @@ export default function Dashboard() {
     <div className="min-h-screen flex flex-col">
       <Navbar />
       <main className="flex-grow w-full max-w-6xl mx-auto flex flex-col gap-8 px-4 py-8">
-        {user && (
-          <h2 className="text-center text-2xl font-mono font-semibold text-gray-700">
-            Hi, {user.displayName || "there"}!
-          </h2>
-        )}
-        <h1 className="text-center text-4xl font-semibold">
-          Your Ergonomic Dashboard
-        </h1>
+        <div className = "flex flex-col">
+          {user && (
+            <h2 className="text-center text-2xl font-mono font-semibold text-gray-700">
+              Hi, {user.displayName || "there"}!
+            </h2>
+          )}
+          <h1 className="text-center text-4xl font-semibold">
+            Your Ergonomic Dashboard
+          </h1>
+        </div>
 
         <div className="flex flex-col lg:flex-row gap-12">
           <div className="flex-1 flex flex-col gap-8">
-            <div className="flex-1 bg-white rounded-2xl shadow-lg p-8 flex items-center justify-center min-h-[600px]">
+            <div className="flex-1 flex-col bg-white rounded-2xl shadow-lg p-8 flex items-center justify-center min-h-[600px]">
               <h2 className="text-2xl font-semibold mb-4 text-center">
                 Live Hand
               </h2>
@@ -117,8 +115,8 @@ export default function Dashboard() {
               </div>
             </div>
 
-            <div className="w-full h-[300px] bg-white rounded-lg overflow-hidden">
-              <h2 className="text-2xl font-semibold mb-4 text-center pt-2">
+            <div className="w-full h-[400px] bg-white rounded-lg overflow-hidden pr-6">
+              <h2 className="text-2xl font-semibold mb-4 text-center mt-6">
                 Live Wrist
               </h2>
               <GraphVisualizer data={history} />
