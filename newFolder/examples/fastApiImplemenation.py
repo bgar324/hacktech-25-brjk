@@ -23,7 +23,6 @@ def read_root():
 async def start_recording():
     script_path = "./tracking_event_example.py"  # Your script
     json_path = "newFolder/examples/output.json"  # <-- Path to the JSON file your script creates
-
     try:
         
         subprocess.run(["python", script_path], check=True)

@@ -12,11 +12,17 @@ import {
   signInWithEmailAndPassword,
   GoogleAuthProvider,
   signInWithPopup,
-  getAuth,
   onAuthStateChanged,
   signOut,
   updateProfile,
 } from "firebase/auth";
+import {
+  collection,
+  doc,
+  setDoc,
+  getDoc,
+  serverTimestamp,
+} from "firebase/firestore";
 import { Separator } from "@/components/ui/separator";
 
 const page = () => {
@@ -37,7 +43,6 @@ const page = () => {
     const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
       setUser(currentUser);
     });
-
     return () => unsubscribe();
   }, []);
 
@@ -49,12 +54,24 @@ const page = () => {
     });
   }, [password]);
 
+  const createUserDocumentIfNotExists = async (user: any) => {
+    const userDocRef = doc(db, "users", user.uid);
+    const userDocSnap = await getDoc(userDocRef);
+  
+    if (!userDocSnap.exists()) {
+      await setDoc(userDocRef, {
+        uuid: user.uid,
+        email: user.email || "",
+        displayName: user.displayName || "",
+        createdAt: serverTimestamp(),
+      });
+    }
+  };
+
   const handleEmailAuth = async () => {
     try {
       if (isSignUp) {
-        const meetsRequirements = Object.values(passwordChecks).every(
-          (check) => check
-        );
+        const meetsRequirements = Object.values(passwordChecks).every((check) => check);
         if (!meetsRequirements) {
           setError("Please meet all password requirements");
           return;
@@ -63,35 +80,34 @@ const page = () => {
           setError("Please provide both first and last name");
           return;
         }
-        const userCredential = await createUserWithEmailAndPassword(
-          auth,
-          email,
-          password
-        );
+        const userCredential = await createUserWithEmailAndPassword(auth, email, password);
         await updateProfile(userCredential.user, {
           displayName: `${firstName} ${lastName}`,
         });
+        await createUserDocumentIfNotExists(userCredential.user);
       } else {
-        await signInWithEmailAndPassword(auth, email, password);
+        const userCredential = await signInWithEmailAndPassword(auth, email, password);
+        await createUserDocumentIfNotExists(userCredential.user);
       }
       setError("");
     } catch (error: any) {
       setError(error.message);
       console.error("❌ Authentication error:", error.code, error.message);
     }
-  };
+  };  
 
   const handleGoogleSignIn = async () => {
     try {
       const provider = new GoogleAuthProvider();
-      await signInWithPopup(auth, provider);
+      const result = await signInWithPopup(auth, provider);
+      await createUserDocumentIfNotExists(result.user);
       setError("");
     } catch (error: any) {
       setError(error.message);
       console.error("❌ Google sign-in error:", error.code, error.message);
     }
   };
-
+  
   const handleSignOut = async () => {
     try {
       await signOut(auth);
@@ -139,23 +155,21 @@ const page = () => {
                         {isSignUp ? "Create Account" : "Welcome Back!"}
                       </h2>
                       {isSignUp && (
-                        <>
-                          <div className="space-y-4 mb-4">
-                            <input
-                              type="text"
-                              placeholder="First Name"
-                              value={firstName}
-                              onChange={(e) => setFirstName(e.target.value)}
-                              className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-                            />
-                            <input
-                              type="text"
-                              placeholder="Last Name"
-                              value={lastName}
-                              onChange={(e) => setLastName(e.target.value)}
-                              className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-                            />
-                          </div>
+                        <div className="space-y-4 mb-4">
+                          <input
+                            type="text"
+                            placeholder="First Name"
+                            value={firstName}
+                            onChange={(e) => setFirstName(e.target.value)}
+                            className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                          />
+                          <input
+                            type="text"
+                            placeholder="Last Name"
+                            value={lastName}
+                            onChange={(e) => setLastName(e.target.value)}
+                            className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                          />
                           <div className="mb-4">
                             <p className="text-sm text-gray-600 mb-2">
                               Password requirements:
@@ -169,7 +183,7 @@ const page = () => {
                                 }`}
                               >
                                 {passwordChecks.length ? "✓" : "×"} At least 8
-                                characters long
+                                characters
                               </li>
                               <li
                                 className={`flex items-center ${
@@ -178,8 +192,8 @@ const page = () => {
                                     : "text-red-600"
                                 }`}
                               >
-                                {passwordChecks.special ? "✓" : "×"} Contains a
-                                special character
+                                {passwordChecks.special ? "✓" : "×"} Special
+                                character
                               </li>
                               <li
                                 className={`flex items-center ${
@@ -188,12 +202,12 @@ const page = () => {
                                     : "text-red-600"
                                 }`}
                               >
-                                {passwordChecks.capital ? "✓" : "×"} Contains a
-                                capital letter
+                                {passwordChecks.capital ? "✓" : "×"} Capital
+                                letter
                               </li>
                             </ul>
                           </div>
-                        </>
+                        </div>
                       )}
                       {error && (
                         <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded mb-4">
@@ -223,7 +237,7 @@ const page = () => {
                               (check) => check
                             )
                           }
-                          className={`w-full py-2 rounded-lg transition duration-200 cursor-pointer ${
+                          className={`w-full py-2 rounded-lg transition duration-200 ${
                             isSignUp &&
                             !Object.values(passwordChecks).every(
                               (check) => check
@@ -236,7 +250,7 @@ const page = () => {
                         </button>
                         <button
                           onClick={handleGoogleSignIn}
-                          className="w-full bg-white text-gray-700 border border-gray-300 py-2 rounded-lg hover:bg-gray-50 transition duration-200 flex items-center justify-center cursor-pointer"
+                          className="w-full bg-white text-gray-700 border border-gray-300 py-2 rounded-lg hover:bg-gray-50 transition duration-200 flex items-center justify-center"
                         >
                           <svg className="w-5 h-5 mr-2" viewBox="0 0 24 24">
                             <path
@@ -261,7 +275,7 @@ const page = () => {
                         <div className="text-center">
                           <button
                             onClick={() => setIsSignUp(!isSignUp)}
-                            className="text-blue-600 hover:text-blue-700 cursor-pointer"
+                            className="text-blue-600 hover:text-blue-700"
                           >
                             {isSignUp
                               ? "Already have an account? Sign in"

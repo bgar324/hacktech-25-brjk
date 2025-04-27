@@ -133,10 +133,10 @@ export default function Home() {
                 (with wolfram|alpha)
               </p>
               <a
-                href="/Dashboard"
+                href="/HowItWorks"
                 className="bg-amber-400 rounded-full hover:bg-amber-500 px-4 py-2 font-mono mt-4 duration-200 ease-in-out transition-all"
               >
-                dashboard
+                learn more
               </a>
             </div>
           </div>
