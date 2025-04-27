@@ -5,6 +5,7 @@ import Navbar from "./components/Navbar";
 import React, { useState } from "react";
 import Link from "next/link";
 import Footer from "./components/Footer";
+import { ArrowRightIcon } from "lucide-react";
 
 import { db } from "./firebase";
 
@@ -133,10 +134,10 @@ export default function Home() {
                 (with wolfram|alpha)
               </p>
               <a
-                href="/HowItWorks"
-                className="bg-amber-400 rounded-full hover:bg-amber-500 px-4 py-2 font-mono mt-4 duration-200 ease-in-out transition-all"
+                href="/ScienceBehind"
+                className="bg-amber-400 rounded-full flex flex-row text-center items-center w-fit hover:bg-amber-500 px-4 py-2 font-mono mt-4 duration-200 ease-in-out transition-all gap-4"
               >
-                learn more
+                learn more<ArrowRightIcon size = {16}/>
               </a>
             </div>
           </div>
