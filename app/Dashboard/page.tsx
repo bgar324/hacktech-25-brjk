@@ -39,8 +39,8 @@ export default function Dashboard() {
 
   const startRecording = async () => {
     try {
-      const res = await fetch("http://127.0.0.1:0000/start-recording");
-      if (res.ok) {
+      const response = await fetch("http://127.0.0.1:8004/start-recording");
+      if (response.ok) {
         setIsRecording(true);
         const { message } = await res.json();
         console.log(message);
