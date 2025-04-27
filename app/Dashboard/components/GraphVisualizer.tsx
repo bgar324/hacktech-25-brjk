@@ -1,5 +1,5 @@
 // components/GraphVisualizer.tsx
-import React from 'react'
+import React from "react";
 import {
   ResponsiveContainer,
   LineChart,
@@ -9,55 +9,53 @@ import {
   CartesianGrid,
   Tooltip,
   Legend,
-} from 'recharts'
+} from "recharts";
 
 export type DataPoint = {
-  timestamp: number
-  flexion: number
-  deviation: number
-  pronation: number
-}
+  timestamp: number;
+  flexion: number;
+  deviation: number;
+  pronation: number;
+};
 
 interface Props {
-  data: DataPoint[]
+  data: DataPoint[];
 }
 
 const GraphVisualizer: React.FC<Props> = ({ data }) => (
-  <ResponsiveContainer width="100%" height={400} className = "mx-auto justify-center self-center">
+  <ResponsiveContainer width="100%" height="100%">
     <LineChart data={data}>
       <CartesianGrid strokeDasharray="3 3" />
       <XAxis
         dataKey="timestamp"
-        tickFormatter={ts => new Date(ts).toLocaleTimeString()}
+        tickFormatter={(ts) => new Date(ts).toLocaleTimeString()}
       />
       <YAxis />
-      <Tooltip 
-        labelFormatter={ts => new Date(ts).toLocaleTimeString()} 
-      />
+      <Tooltip labelFormatter={(ts) => new Date(ts).toLocaleTimeString()} />
       <Legend />
       <Line
         type="monotone"
         dataKey="flexion"
         name="Flexion (°)"
         stroke="#8884d8"
-        dot={true}
+        dot
       />
       <Line
         type="monotone"
         dataKey="deviation"
         name="Deviation (°)"
         stroke="#82ca9d"
-        dot={true}
+        dot
       />
       <Line
         type="monotone"
         dataKey="pronation"
         name="Pronation (°)"
         stroke="#ffc658"
-        dot={true}
+        dot
       />
     </LineChart>
   </ResponsiveContainer>
-)
+);
 
-export default GraphVisualizer
+export default GraphVisualizer;

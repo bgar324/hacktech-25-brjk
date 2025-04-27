@@ -1,4 +1,3 @@
-// app/page.tsx
 "use client";
 
 import React, { useEffect, useState } from "react";
@@ -20,16 +19,14 @@ export default function Dashboard() {
   const [pronation, setPronation] = useState<number | null>(null);
   const [history, setHistory] = useState<DataPoint[]>([]);
 
-  useEffect(() => {
-    return onAuthStateChanged(auth, setUser);
-  }, []);
+  useEffect(() => onAuthStateChanged(auth, setUser), []);
 
   useEffect(() => {
-    const framesRef = collection(db, "first");
-    const q = query(framesRef, orderBy("timestamp", "asc"));
-    const unsub = onSnapshot(q, (snap) => {
+    const ref = collection(db, "first");
+    const q = query(ref, orderBy("timestamp", "asc"));
+    const unsub = onSnapshot(q, snap => {
       if (snap.empty) return;
-      const latest = snap.docs[snap.docs.length - 1].data();
+      const latest = snap.docs[snap.docs.length - 1].data() as any;
       setFlexion(parseFloat(latest.flexion));
       setDeviation(parseFloat(latest.deviation));
       setPronation(parseFloat(latest.pronation));
@@ -37,60 +34,52 @@ export default function Dashboard() {
     return () => unsub();
   }, []);
 
-  const startRecording = async () => {
-    try {
-      const response = await fetch("http://127.0.0.1:8004/start-recording");
-      if (response.ok) {
-        setIsRecording(true);
-        const { message } = await response.json();
-        console.log(message);
-      }
-    } catch {
-      console.error("Recording failed");
+  const toggleRecording = async () => {
+    if (!isRecording) {
+      await fetch("http://127.0.0.1:8004/start-recording");
+      setHistory([]);
+      setIsRecording(true);
+    } else {
+      await fetch("http://127.0.0.1:8004/stop-recording");
+      setIsRecording(false);
     }
   };
 
   useEffect(() => {
     if (!isRecording) return;
-    const framesRef = collection(db, "first");
-    const q = query(framesRef, orderBy("timestamp", "asc"));
-    const unsub = onSnapshot(q, (snap) => {
-      if (snap.empty) return;
-      const points = snap.docs.map((doc) => {
-        const d = doc.data();
-        const ts =
-          typeof d.timestamp?.toMillis === "function"
-            ? d.timestamp.toMillis()
-            : Date.now();
-        return {
-          timestamp: ts,
-          flexion: parseFloat(d.flexion),
-          deviation: parseFloat(d.deviation),
-          pronation: parseFloat(d.pronation),
-        };
-      });
-      setHistory(points);
-    });
-    return () => unsub();
-  }, [isRecording]);
+    if (
+      flexion !== null &&
+      deviation !== null &&
+      pronation !== null
+    ) {
+      setHistory(prev => [
+        ...prev,
+        {
+          timestamp: Date.now(),
+          flexion,
+          deviation,
+          pronation,
+        },
+      ]);
+    }
+  }, [flexion, deviation, pronation, isRecording]);
 
   return (
     <div className="min-h-screen flex flex-col">
       <Navbar />
       <main className="flex-grow w-full max-w-6xl mx-auto flex flex-col gap-8 px-4 py-8">
-        <div>
-          {user && (
-            <h2 className="text-center text-2xl font-mono font-semibold text-gray-700">
-              Hi, {user.displayName || "there"}!
-            </h2>
-          )}
-          <h1 className="text-center text-4xl font-semibold mt-2">
-            Your Ergonomic Dashboard
-          </h1>
-        </div>
+        {user && (
+          <h2 className="text-center text-2xl font-mono font-semibold text-gray-700">
+            Hi, {user.displayName || "there"}!
+          </h2>
+        )}
+        <h1 className="text-center text-4xl font-semibold">
+          Your Ergonomic Dashboard
+        </h1>
+
         <div className="flex flex-col lg:flex-row gap-12">
           <div className="flex-1 flex flex-col gap-8">
-            <div className="flex-1 bg-white rounded-2xl shadow-lg p-8 flex items-center justify-center min-h-[600px] flex-col">
+            <div className="flex-1 bg-white rounded-2xl shadow-lg p-8 flex items-center justify-center min-h-[600px]">
               <h2 className="text-2xl font-semibold mb-4 text-center">
                 Live Hand
               </h2>
@@ -128,26 +117,26 @@ export default function Dashboard() {
               </div>
             </div>
 
-            <div className="w-full h-auto mx-auto bg-white rounded-lg overflow-hidden flex items-center justify-center text-center">
-              <div className="w-full max-w-md">
+            <div className="w-full h-[300px] bg-white rounded-lg overflow-hidden">
               <h2 className="text-2xl font-semibold mb-4 text-center pt-2">
                 Live Wrist
               </h2>
               <GraphVisualizer data={history} />
-              </div>
             </div>
 
             <button
-              onClick={startRecording}
-              className="mt-4 bg-gray-300/40 hover:bg-gray-300/80 p-3 rounded-lg text-center cursor-pointer duration-200 ease-in-out transition"
+              onClick={toggleRecording}
+              className="mt-4 bg-gray-300/40 hover:bg-gray-300/80 p-3 rounded-lg transition"
             >
-              {isRecording ? "Recording…" : "Start recording"}
+              {isRecording ? "Stop recording" : "Start recording"}
             </button>
+
             <a
               href="/Diagnostic"
-              className="text-center items-center flex flex-row w-fit px-3 py-1 rounded-full transition-all hover:bg-gray-300/40 duration-200 ease-in-out"
+              className="flex items-center justify-center w-fit px-3 py-1 rounded-full hover:bg-gray-300/40 transition"
             >
-              View Diagnostic <ArrowRight size={16} />
+              View Diagnostic
+              <ArrowRight size={16} className="ml-1" />
             </a>
           </div>
         </div>
