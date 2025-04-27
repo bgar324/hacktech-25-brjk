@@ -60,7 +60,3 @@ def wolframAI(a, b, c): # parameter values: (x, y, z)
         if result_pod is not None:
             plaintext = result_pod.findtext(".//plaintext") 
             return "Wolfram Alpha Magnitude Calculation: " + plaintext
-        
-print(openAI(-400,-500,-600))
-print(openAI(100,100,100))
-print(openAI(0,0,0))
