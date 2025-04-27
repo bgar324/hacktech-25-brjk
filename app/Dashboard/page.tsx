@@ -8,19 +8,22 @@ import { onAuthStateChanged, User } from "firebase/auth";
 
 export default function Dashboard() {
   const [user, setUser] = useState<User | null>(null);
-  const [isRecording, setIsRecording] = useState(false);
-  const [recordingFinished, setRecordingFinished] = useState(false);
-
-  const handleRecordingToggle = () => {
-    if (!isRecording) {
-      setIsRecording(true);
-      setRecordingFinished(false);
-    } else {
-      setIsRecording(false);
-      setRecordingFinished(true);
+  const startRecording = async () => {
+    try {
+      const response = await fetch("http://127.0.0.1:8000/start-recording", {
+        method: "GET",
+      });
+  
+      if (response.ok) {
+        const data = await response.json();
+        console.log(data.message); // Log the message from FastAPI
+      } else {
+        console.error("Failed to start recording");
+      }
+    } catch (error) {
+      console.error("Error while connecting to the backend:", error);
     }
   };
-
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
       setUser(currentUser);
@@ -95,23 +98,9 @@ export default function Dashboard() {
                 (Live Chart Goes Here)
               </div>
             </div>
-            <div className="flex flex-col gap-4 mt-8">
-              {!recordingFinished ? (
-                <button
-                  onClick={handleRecordingToggle}
-                  className="bg-gray-200 hover:bg-gray-200/80 transition-all duration-200 ease-in-out text-blue-800 p-3 py-4 rounded-lg shadow-sm flex items-center justify-center cursor-pointer"
-                >
-                  {isRecording ? "Stop Recording" : "Start Recording"}
-                </button>
-              ) : (
-                <a
-                  href="/Diagnostic"
-                  className="bg-blue-400 hover:bg-blue-500 transition-all duration-200 ease-in-out text-white p-3 py-4 rounded-lg shadow-sm flex items-center justify-center cursor-pointer"
-                >
-                  View Deep Diagnostic
-                </a>
-              )}
-            </div>
+            <button onClick = {startRecording} className="mt-8 bg-gray-200 hover:bg-gray-200/80 transition-all duration-200 ease-in-out not-only-of-type:text-blue-800 p-3 py-4 rounded-lg shadow-sm flex items-center justify-center cursor-pointer">
+              Start recording
+            </button>
           </div>
         </div>
       </main>
