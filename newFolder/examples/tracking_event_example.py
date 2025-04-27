@@ -50,31 +50,49 @@ class MyListener(leap.Listener):
                 handy.append([f"{j.x:.2f}", f"{j.y:.2f}", f"{j.z:.2f}"])
 
             
-            # # 1) grab the elbow & wrist from the arm bone
-            
-
+            v_palmNormal = np.array([
+            hand.palm.normal.x,
+            hand.palm.normal.y,
+            hand.palm.normal.z
+            ])
+            v_palmNormalMag = v_palmNormal / np.linalg.norm(v_palmNormal)
+        
             # # build the “forearm” vector elbow→wrist
-            # varmx = wrist_pt.x - elbow.x
-            # varmy = wrist_pt.y - elbow.y
-            # varmz = wrist_pt.z - elbow.z
-            # v_arm =np.array[varmx, varmy, varmz]
-
-            #v_armMag = v_arm/sum(v_arm)
+            varmx = wrist_pt.x - elbow.x
+            varmy = wrist_pt.y - elbow.y
+            varmz = wrist_pt.z - elbow.z
+            v_arm =np.array([varmx, varmy, varmz])
+            v_armMag = v_arm/np.linalg.norm(v_arm)
 
             # # 2) build the “wrist→palm” vector
-            # palm_pt = hand.palm.position
-            #v_wrist = [hand.palm.position.x - wrist_pt.x, hand.palm.position.y - wrist_pt.y, hand.palm.position.z - wrist_pt.z]
-            #v_wristMag = v_wrist/sum(v_wrist)
+            palm_pt = hand.palm.position
+            v_wrist = np.array([hand.palm.position.x - wrist_pt.x, hand.palm.position.y - wrist_pt.y, hand.palm.position.z - wrist_pt.z])
+            v_wristMag = v_wrist/np.linalg.norm(v_wrist)
             
-            # theta = np.arccos(np.clip(np.dot(v_armMag[0:1], v_wristMag[0:1]))) #projection angle calc onto x-y plane
-            # phi = np.arccos(np.clip(np.dot(v_armMag[1:2], v_wristMag[1:2])))   #projecction angle calc ony y-z plane
+            radDev = np.arccos(np.clip(np.dot(v_armMag, v_wristMag), -1.0, 1.0 )) *180 / np.pi
+            flexEx = (np.arctan2(v_wrist[1], v_wrist[0]) - np.arctan2(v_arm[1], v_arm[0]))*180 / np.pi
+            
+            def pronation_angle(a, p, up=np.array([0.,0.,1.])):
+                referencePlane = (up - np.dot(up, a))
+                referencePlane = referencePlane / np.linalg.norm(referencePlane)
 
+                proj = p - np.dot(p, a)*a
+                proj = proj / np.linalg.norm(proj)
 
-            # handy.append([theta, phi])
+                x = np.dot(referencePlane,    proj)
+                y = np.dot(a, np.cross(referencePlane, proj))
+                return 90 + np.arctan2(y, x) *180 / np.pi
+            
+            handy.append([
+                f"{radDev:.2f}",
+                f"{flexEx:.2f}",
+                f"{pronation_angle(v_armMag,v_palmNormalMag):.2f}"
+            ])
 
             #final matrix document
             #[hand_type, palm, wrist, thumb joint, thumb middle, thumb tip, index joint, index middle, index tip, middle joint,
-            # middle middle, middle tip, ring joint, ring middle, ring tip, pinky joint, pinky middle, pinky tip, theta, phi ]
+            # middle middle, middle tip, ring joint, ring middle, ring tip, pinky joint, pinky middle, pinky tip, angles 
+            # (radial deviation left pos, pro and extension down pos, rotation clockwise pos ) ]
 
             finalData = {  "hand_type": handy[0],
                          "palm":handy[1],
@@ -85,14 +103,18 @@ class MyListener(leap.Listener):
                          "index_joint":handy[6],
                          "index_middle": handy[7],
                          "index_tip": handy[8],
-                         "ring_joint":handy[9],
-                         "ring_middle": handy[10],
-                         "ring_tip": handy[11],
-                         "pinky_joint": handy[12],
-                         "pinky_middle": handy[13],
-                         "pinky_tip":handy[14],
+                         "middle_joint":handy[9],
+                         "middle_middle": handy[10],
+                         "middle_tip": handy[11],
+                         "ring_joint":handy[12],
+                         "ring_middle": handy[13],
+                         "ring_tip": handy[14],
+                         "pinky_joint": handy[15],
+                         "pinky_middle": handy[16],
+                         "pinky_tip":handy[17],
+                         "angle(LR, UPDO, ROT)" :handy[18]
             }
-            print(finalData)
+            
 
 
 def main():
