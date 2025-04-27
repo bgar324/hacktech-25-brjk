@@ -18,7 +18,7 @@ export default function Dashboard() {
       });
       if (response.ok) {
         const data = await response.json();
-        console.log(data.message);
+        console.log(data.message); // Log the message from FastAPI
       } else {
         console.error("Failed to start recording");
       }
@@ -46,7 +46,7 @@ export default function Dashboard() {
   return (
     <div className="min-h-screen max-w-screen flex flex-col">
       <Navbar />
-      <main className="flex-grow max-w-full w-full mx-auto flex flex-col gap-12 items-center justify-center px-8 md:px-24">
+      <main className="flex-grow max-w-full w-full mx-auto flex flex-col gap-12 items-center justify-center px-24">
         <div className="text-center items-center">
           {user && (
             <h2 className="text-lg md:text-2xl font-mono font-semibold text-gray-700">
@@ -105,12 +105,8 @@ export default function Dashboard() {
                 (Live Chart Goes Here)
               </div>
             </div>
-
-            <button
-              onClick={handleRecordingClick}
-              className="mt-8 bg-gray-200 hover:bg-gray-200/80 transition-all duration-200 ease-in-out text-blue-800 p-3 py-4 rounded-lg shadow-sm flex items-center justify-center cursor-pointer"
-            >
-              {isRecording ? "Pause & View Diagnostics" : "Start recording"}
+            <button onClick = {startRecording} className="mt-8 bg-gray-200 hover:bg-gray-200/80 transition-all duration-200 ease-in-out not-only-of-type:text-blue-800 p-3 py-4 rounded-lg shadow-sm flex items-center justify-center cursor-pointer">
+              Start recording
             </button>
           </div>
         </div>
