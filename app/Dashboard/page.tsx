@@ -8,6 +8,7 @@ import { db } from "../firebase";
 import { collection, query, orderBy, onSnapshot } from "firebase/firestore";
 import { onAuthStateChanged, User } from "firebase/auth";
 import HandVisualizer from "./components/HandVisualizer";
+import GraphVisualizer, { DataPoint } from "./components/GraphVisualizer";
 
 export default function Dashboard() {
   const [user, setUser] = useState<User | null>(null);
@@ -15,6 +16,7 @@ export default function Dashboard() {
   const [flexion, setFlexion] = useState<number | null>(null);
   const [deviation, setDeviation] = useState<number | null>(null);
   const [pronation, setPronation] = useState<number | null>(null);
+  const [history, setHistory] = useState<DataPoint[]>([]);
 
   useEffect(() => {
     const unsubscribeAuth = onAuthStateChanged(auth, setUser);
@@ -44,6 +46,7 @@ export default function Dashboard() {
         method: "GET",
       });
       if (response.ok) {
+        setIsRecording(true);
         const data = await response.json();
         console.log(data.message); // Log the message from FastAPI
       } else {
@@ -54,10 +57,38 @@ export default function Dashboard() {
     }
   };
 
+  useEffect(() => {
+    if (!isRecording) return;
+    setHistory([]);
+    const q = query(collection(db, "first"), orderBy("timestamp", "asc"));
+    const unsub = onSnapshot(
+      q,
+      (snap) => {
+        if (snap.empty) return;
+        const doc = snap.docs[snap.docs.length - 1];
+        const data = doc.data();
+        const ts =
+          typeof data.timestamp?.toMillis === "function"
+            ? data.timestamp.toMillis()
+            : Date.now();
+        setHistory((prev) => [
+          ...prev,
+          {
+            timestamp: ts,
+            flexion: parseFloat(data.flexion),
+            deviation: parseFloat(data.deviation),
+            pronation: parseFloat(data.pronation),
+          },
+        ]);
+      },
+      console.error
+    );
+    return () => unsub();
+  }, [isRecording]);
+
   const handleRecordingClick = () => {
     if (!isRecording) {
       startRecording();
-      setIsRecording(true);
     } else {
       // you can add pause logic or navigation to diagnostics here
     }
@@ -131,14 +162,14 @@ export default function Dashboard() {
                 Live Wrist Graph
               </h2>
               <div className="h-64 bg-gray-100 rounded-lg flex items-center justify-center text-gray-400 text-base font-semibold">
-                (Live Chart Goes Here)
+                <GraphVisualizer data={history} />
               </div>
             </div>
             <button
-              onClick={startRecording}
-              className="mt-8 bg-gray-200 hover:bg-gray-200/80 transition-all duration-200 ease-in-out not-only-of-type:text-blue-800 p-3 py-4 rounded-lg shadow-sm flex items-center justify-center cursor-pointer"
+              onClick={handleRecordingClick}
+              className="mt-4 bg-gray-200 hover:bg-gray-200/80 p-3 rounded-lg"
             >
-              Start recording
+              {isRecording ? "Recording…" : "Start recording"}
             </button>
           </div>
         </div>
