@@ -22,9 +22,10 @@ def read_root():
 @app.get("/start-recording")
 async def start_recording():
     script_path = "./tracking_event_example.py"  # Your script
+    script_path1 = "../wolframalpha/open_wolfram.py"
     json_path = "newFolder/examples/output.json"  # <-- Path to the JSON file your script creates
     try:
-        
+        subprocess.run(["python", script_path1], check=True, capture_output=True, text=True)
         subprocess.run(["python", script_path], check=True)
         # # return {"message": "Welcome to!"}
         # print("JSON data:")

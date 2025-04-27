@@ -13,9 +13,12 @@ from google.cloud import firestore
 from datetime import datetime
 
 global finalData
+global intt 
+intt = 0
 class MyListener(leap.Listener):
     def __init__(self):
         self.finalData = ""
+        
     def on_connection_event(self, event):
         print("Connected")
     def on_device_event(self, event):
@@ -28,7 +31,10 @@ class MyListener(leap.Listener):
         print(f"Found device {info.serial}")
 
     def on_tracking_event(self, event):
+        global intt
         #print(f"Frame {event.tracking_frame_id} with {len(event.hands)} hands.")
+        # print(intt)
+        intt += 1
         for hand in event.hands:
             hand_type = "left" if str(hand.type) == "HandType.Left" else "right"
 
@@ -126,11 +132,9 @@ class MyListener(leap.Listener):
                          "pinky_tip":handy[17],
                          "angle(LR, UPDO, ROT)" :handy[18]
             }
-            os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = "/Users/jonnie/Downloads/hacktech25brjk-firebase-adminsdk-fbsvc-fcb62fcc70.json"
-            db = firestore.Client()
+
 
             # Reference to the Firestore collection
-            collection_ref = db.collection('first')
 
             # Custom Document ID
             custom_id = 'my_custom_id_124'  # <-- You define your ID here
@@ -181,9 +185,14 @@ class MyListener(leap.Listener):
                 "pointAverage": {"x":deviationAverage, "y":flexationAverage, "z":pronatnionAverage},
                 "timestamp": formatted_time
             }
-            print(self.finalData)
-            # Create a reference to the document with the custom ID
+        os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = "/Users/jonnie/Downloads/hacktech25brjk-firebase-adminsdk-fbsvc-fcb62fcc70.json"
+        db = firestore.Client()
+        collection_ref = db.collection('first')
+        if (intt % 100 == 0):
             doc_ref = collection_ref.add(data)
+            # print('yes')
+            
+            
 # Call the function to add the document
             
             
