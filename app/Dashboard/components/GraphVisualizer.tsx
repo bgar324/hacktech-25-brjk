@@ -23,7 +23,7 @@ interface Props {
 }
 
 const GraphVisualizer: React.FC<Props> = ({ data }) => (
-  <ResponsiveContainer width="100%" height="100%">
+  <ResponsiveContainer width="100%" height={300}>
     <LineChart data={data}>
       <CartesianGrid strokeDasharray="3 3" />
       <XAxis

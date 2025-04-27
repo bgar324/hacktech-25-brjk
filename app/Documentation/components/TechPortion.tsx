@@ -44,8 +44,7 @@ const TechPortion = () => {
             </TableCell>
             <TableCell className="text-left">Python + NumPy + WolframAlpha API</TableCell>
             <TableCell className="text-left break-words whitespace-normal">
-              Extracts positional data, computes joint angles and ergonomic risk
-              scores, and optionally solves complex ergonomic equations.
+              Extracts positional data, computes joint angles and positions.
             </TableCell>
           </TableRow>
           <TableRow>
@@ -58,32 +57,12 @@ const TechPortion = () => {
           </TableRow>
           <TableRow>
             <TableCell className="font-medium text-left">
-              Authentication Layer (Optional)
-            </TableCell>
-            <TableCell className="text-left">Firebase Auth</TableCell>
-            <TableCell className="text-left break-words whitespace-normal">
-              Handles user signup, login, and secure tracking of personalized
-              ergonomic history.
-            </TableCell>
-          </TableRow>
-          <TableRow>
-            <TableCell className="font-medium text-left">
               Frontend Application Layer
             </TableCell>
             <TableCell className="text-left">React.js (Vite or Next.js)</TableCell>
             <TableCell className="text-left break-words whitespace-normal">
               Displays real-time ergonomic feedback, posture alerts, and
               diagnostic reports through an interactive web interface.
-            </TableCell>
-          </TableRow>
-          <TableRow>
-            <TableCell className="font-medium text-left">
-              Cloud Connection Layer
-            </TableCell>
-            <TableCell className="text-left">Firebase Admin SDK (Python)</TableCell>
-            <TableCell className="text-left break-words whitespace-normal">
-              Synchronizes computed posture data from backend computation to
-              Firebase cloud storage for frontend access.
             </TableCell>
           </TableRow>
           <TableRow>
