@@ -1,4 +1,4 @@
-# HackTech 2025 Hei.AI
+# HackTech 2025 Het.AI
 Het.AI is a website that utilizing the Leap Motion Controller 1, Wolfram Alpha AI, and OpenAI to emphasize the importance of proper ergonomic practices. 
 
 ## Table of Contents
